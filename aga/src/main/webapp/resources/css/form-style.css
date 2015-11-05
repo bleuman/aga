@@ -1,0 +1,125 @@
+*:before, *:after {
+	box-sizing: border-box;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active,
+	.btn-primary.active, .open>.dropdown-toggle.btn-primary {
+	color: #FFF;
+	background-color: #3071A9;
+	border-color: #285E8E;
+}
+
+.btn:hover, .btn:focus {
+	color: #333;
+	text-decoration: none;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+	outline: thin dotted;
+	outline-offset: -2px;
+}
+
+.btn-block {
+	display: block;
+	width: 75%;
+	margin: auto;
+}
+
+.btn-lg, .btn-group-lg>.btn {
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 6px;
+}
+
+.btn-primary {
+	color: #FFF;
+	background-color: #428BCA;
+	border-color: #357EBD;
+}
+
+.btn {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: -15px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-moz-user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	margin-top: 6px;
+}
+
+input, button, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+button, html input[type="button"], input[type="reset"], input[type="submit"]
+	{
+	cursor: pointer;
+}
+
+button, select {
+	text-transform: none;
+}
+
+button {
+	overflow: visible;
+}
+
+button, input, optgroup, select, textarea {
+	margin: 0px;
+	font: inherit;
+	color: inherit;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#log {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 300px; /* A toi de donner la bonne largeur */
+	height: 225px; /* A toi de donner la bonne hauteur */
+	margin-left: -150px; /* -largeur/2 */
+	margin-top: -150px; /* -hauteur/2 */
+}
+
+#footer {
+	width: 100%; /* A toi de donner la bonne largeur */
+	height: 30px; /* A toi de donner la bonne hauteur */
+	margin-top: -30px; /* -hauteur/2 */
+	padding: 0px;
+	background: url('resources/images/footer-bottom.png') repeat scroll
+		center top #505050;
+	color: #FFF;
+}
+
+#footer #visu {
+	width: 100%;
+	line-height: 1.3;
+	margin-right: 40px;
+	background: url('resources/images/footer-acco-end.png') no-repeat scroll
+		right center #505050;
+	color: #AAA;
+}
+
+body, html {
+	height: 100% !important;
+}
+
+#content {
+	height: 100% !important;
+	min-height: 300px !important;
+	/* This is the height of your content + height of the footer */
+}

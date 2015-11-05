@@ -1,0 +1,58 @@
+
+.patterns, .patterns td, .patterns tr, .patterns th {
+	margin:0;
+	padding:0;
+	font-weight:normal;
+	}
+
+	
+/* ---- Table ---- */
+.calend {
+	border-collapse:collapse;
+	margin-bottom:15px;
+	width:75%;
+}
+.patterns {
+	border-collapse:collapse;
+	margin-bottom:15px;
+	width:95%;
+	}
+	
+.patterns td, .patterns th {
+	padding:5px;
+	border:1px solid #A8A8A8;
+	border-width:0 1px 1px 0;
+}
+		
+.patterns thead th {
+		background:#91c5d4;
+		font-weight: bold;
+}
+			
+.patterns thead th[colspan], .patterns thead th[rowspan] {
+	background:#66a9bd;
+}
+		
+.patterns tbody th, .patterns tfoot th {
+	text-align:center;
+	background:#91c5d4;
+	font-weight: bold;
+}
+		
+.patterns tbody td, .patterns tfoot td {
+	text-align:center;
+	background:#d5eaf0;
+}
+		
+.patterns tfoot th {
+	background:#b0cc7f;
+}
+		
+.patterns tfoot td {
+	//background:#d7e1c5;
+	//font-weight:bold;
+}
+			
+.patterns tbody tr.odd td { 
+	background:#bcd9e1;
+}

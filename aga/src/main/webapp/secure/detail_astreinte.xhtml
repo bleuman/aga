@@ -1,0 +1,190 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+
+
+
+	<pf:dataTable var="astreinte" value="#{mbean[query]}" scrollable="true" scrollHeight="350">
+
+		<pf:column width="25">
+
+			<div align="center">
+				<pf:commandLink action="#{beanCP.updateAstreinte(astreinte)}"
+					ajax="false">
+					<div class="grow pic">
+						<pf:graphicImage id="img8" value="/resources/icons/pencil.png">
+							<pf:tooltip value="Modifier" for="img8" />
+
+						</pf:graphicImage>
+					</div>
+					<p>Modifier</p>
+				</pf:commandLink>
+
+			</div>
+
+		</pf:column>
+		<pf:column width="40" headerText="Ref">
+
+					
+#{astreinte.ref}:#{astreinte.sujet}
+				</pf:column>
+
+		<pf:column width="20" headerText="Type">
+                                 #{astreinte.type}
+                        </pf:column>
+
+		<pf:column width="30" headerText="Entite">
+							#{astreinte.entite}
+						</pf:column>
+		<pf:column width="30" headerText="Demandeur">
+							#{astreinte.demandeur}
+						</pf:column>
+		<pf:column width="40" headerText="Début">
+			<h:outputText value="#{astreinte.dateD}">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			</h:outputText>
+		</pf:column>
+		<pf:column width="40" headerText="Fin">
+			<h:outputText value="#{astreinte.dateF}">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			</h:outputText>
+
+		</pf:column>
+		<pf:column width="80" headerText="Ressources">
+
+			<ui:repeat value="#{mbean.toStringArray(astreinte.ressources,'~')}"
+				var="car">
+
+
+				<h:outputText value="#{car}" />
+				<br />
+			</ui:repeat>
+
+
+
+
+		</pf:column>
+
+		<pf:column width="40" headerText="CP">
+                           
+                                 #{astreinte.cp.nom}
+                        </pf:column>
+		<pf:column width="20" headerText="Durée">
+
+			<h:outputText value="#{astreinte.duration}">
+				<f:convertNumber pattern="#0.00" />
+			</h:outputText>
+		</pf:column>
+		<pf:column width="20" headerText="Charge">
+			<h:outputText value="#{astreinte.charge}">
+				<f:convertNumber pattern="#0.00" />
+			</h:outputText>
+
+		</pf:column>
+		<pf:column width="40" headerText="Etat">
+
+
+
+
+			<pf:lightBox id="lighbox2">
+				<h:outputLink value="#">
+					<div align="center">
+						<p>
+							<pf:graphicImage id="img1" value="/resources/icons/play.png"
+								width="40%"
+								rendered="#{astreinte.etatAstreinte.keyp==EtatAstreinte.EN_COURS}">
+								<pf:tooltip value="#{astreinte.etatAstreinte.keyp}" for="img1" />
+
+							</pf:graphicImage>
+							<pf:graphicImage id="img2" value="/resources/icons/checkmark.png"
+								width="40%"
+								rendered="#{astreinte.etatAstreinte.keyp==EtatAstreinte.VALIDEE}">
+								<pf:tooltip value="#{astreinte.etatAstreinte.keyp}" for="img2" />
+
+							</pf:graphicImage>
+
+							<pf:graphicImage id="img3" value="/resources/icons/paste.png"
+								width="40%"
+								rendered="#{astreinte.etatAstreinte.keyp==EtatAstreinte.A_VALIDER}">
+								<pf:tooltip value="#{astreinte.etatAstreinte.keyp}" for="img3" />
+
+							</pf:graphicImage>
+							<pf:graphicImage id="img4" value="/resources/icons/cross.png"
+								width="40%"
+								rendered="#{astreinte.etatAstreinte.keyp==EtatAstreinte.REJETEE}">
+								<pf:tooltip value="#{astreinte.etatAstreinte.keyp}" for="img4" />
+
+							</pf:graphicImage>
+							<pf:graphicImage id="img5" value="/resources/icons/lock.png"
+								width="40%"
+								rendered="#{astreinte.etatAstreinte.keyp==EtatAstreinte.TERMINEE}">
+								<pf:tooltip value="#{astreinte.etatAstreinte.keyp}" for="img5" />
+
+							</pf:graphicImage>
+
+
+						</p>
+						<p>
+							<pf:outputLabel value="#{astreinte.etatAstreinte.keyp}" />
+						</p>
+					</div>
+				</h:outputLink>
+
+				<f:facet name="inline">
+					<pf:fieldset>
+						<f:facet name="legend">
+							<h5 align="center">Motif</h5>
+						</f:facet>
+						<h:outputText value="#{astreinte.motif}" />
+						<div align="center">
+							<pf:commandLink action="#{beanCP.updateAstreinte(astreinte)}"
+								ajax="false">
+								<div class="grow pic">
+									<pf:graphicImage id="img9" value="/resources/icons/pencil.png">
+										<pf:tooltip value="Modifier" for="img9" />
+
+									</pf:graphicImage>
+								</div>
+								<p>Modifier</p>
+							</pf:commandLink>
+
+						</div>
+					</pf:fieldset>
+				</f:facet>
+			</pf:lightBox>
+			<c:if test="1=2">
+				<pf:menuButton id="actions" value="#{astreinte.etatAstreinte.keyp}">
+
+
+					<pf:menuitem
+						rendered="#{mbean.areAnyGranted('ROLE_CP') and ( astreinte.etatAstreinte.keyp == 'En cours' or  astreinte.etatAstreinte.keyp == 'Rejetée') and bean.utilisateur.id == astreinte.cp.id}"
+						action="#{beanCP.validerAsteinte(astreinte.id,5)}" ajax="false"
+						value="#{EtatAstreinte.A_VALIDER}" icon="ui-icon-disk" />
+
+					<pf:menuitem
+						rendered="#{mbean.areAnyGranted( 'ROLE_DM') and astreinte.etatAstreinte.keyp == 'A Valider'}"
+						action="#{beanCP.validerAsteinte(astreinte.id,2)}" ajax="false"
+						value="#{EtatAstreinte.VALIDEE}" icon="ui-icon-disk" />
+					<pf:menuitem action="#{beanCP.validerAsteinte(astreinte.id,3)}"
+						rendered="#{mbean.areAnyGranted( 'ROLE_DM') and astreinte.etatAstreinte.keyp == 'A Valider'}"
+						ajax="false" value="#{EtatAstreinte.REJETEE}" icon="ui-icon-disk" />
+					<pf:menuitem action="#{beanCP.validerAsteinte(astreinte.id,4)}"
+						rendered="#{mbean.areAnyGranted('ROLE_DIR') and astreinte.etatAstreinte.keyp == 'Validée'}"
+						ajax="false" value="#{EtatAstreinte.TERMINEE}" icon="ui-icon-disk" />
+
+				</pf:menuButton>
+
+			</c:if>
+
+		</pf:column>
+
+	</pf:dataTable>
+
+</ui:component>

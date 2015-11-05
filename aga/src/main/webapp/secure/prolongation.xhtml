@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template.xhtml">
+	<ui:define name="contenu">
+		<h1 style="color: #000000;">Ajouter une astreinte</h1>
+	
+		<h:form id="astr" class="login-form"
+			enctype="application/x-www-form-urlencoded">
+			<div class="content">
+				<table border="1">
+					<tr>
+						<td style="text-align: center;"><h3>Référence de la DI(#{beanCP.astreinte.id}) :</h3></td>
+						<td align="center"><h:inputText id="ref"
+								class="input username" style="width:200px; height:15px;"
+								p:placeholder="Référence" required="true"
+								value="#{beanCP.astreinte.ref}">
+								<f:validateLength minimum="4" maximum="4" />
+								<f:ajax event="blur" render="refmsg" />
+							</h:inputText></td>
+						<td><pf:message id="refmsg" for="ref" /></td>
+					</tr>
+					
+					<tr>
+						<td style="text-align: center;"><h3>Sujet de la DI :</h3></td>
+						<td><h:inputText id="sujet" required="true"
+								class="input username" style="width:200px; height:15px;"
+								p:placeholder="Sujet" value="#{beanCP.astreinte.sujet}">
+								<f:ajax event="blur" render="sujmsg" />
+							</h:inputText></td>
+						<td><pf:message id="sujmsg" for="sujet" /></td>
+					</tr>
+					<tr>
+						<td style="text-align: center;"><h3>Type de la DI :</h3></td>
+						<td align="center"><pf:selectOneMenu id="type"
+								required="true" requiredMessage="Séléctionnez une valeur"
+								value="#{beanCP.astreinte.type}"
+								style="width:230px; font-size:15px;
+                                                                	 height:25px; background-color:#FFFFFF; text-align:center;">
+								<f:selectItem itemLabel="Type de l'astreinte" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{mbean['select new javax.faces.model.SelectItem(e.keyp,e.stringValue) from TypeAstreinte e']}" />
+							</pf:selectOneMenu></td>
+						<td><pf:message id="typemsg" for="type" /></td>
+					</tr>
+					<tr>
+						<td style="text-align: center;"><h3>Etat de la DI :</h3></td>
+						<td align="center"><pf:selectOneMenu id="etat"
+								value="#{beanCP.astreinte.etat}" required="true"
+								requiredMessage="Séléctionnez une valeur"
+								style="width:230px; font-size:15px;
+                                                                     height:25px; background-color:#FFFFFF; text-align:center;">
+								<f:selectItem itemLabel="Etat de l'astreinte" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{mbean['select new javax.faces.model.SelectItem(e.keyp,e.stringValue) from EtatAstreinte e']}" />
+								<f:ajax event="blur" render="etatmsg" />
+							</pf:selectOneMenu></td>
+						<td><pf:message id="etatmsg" for="etat" /></td>
+					</tr>
+					
+					<tr>
+						<td style="text-align: center;"><h3>Domaine/Entité :</h3></td>
+						<td align="center"><pf:selectOneMenu id="entite"
+								required="true" requiredMessage="Séléctionnez une valeur"
+								value="#{beanCP.astreinte.entite}"
+								style="width:230px; font-size:15px;
+                                                                	 height:25px; background-color:#FFFFFF; text-align:center;">
+								<f:selectItem itemLabel="Domaine/Entité" itemValue=""
+									noSelectionOption="true" />
+								<f:selectItems
+									value="#{mbean['select new javax.faces.model.SelectItem(e.keyp,e.stringValue) from Entite e']}" />
+								<f:ajax event="blur" render="entmsg" />
+							</pf:selectOneMenu></td>
+						<td><pf:message id="entmsg" for="entite" /></td>
+					</tr>
+					
+					<tr>
+						<td style="text-align: center;"><h3>Date de début:</h3></td>
+						<td align="center"><pf:calendar id="dated" size="30"
+								required="true" p:placeholder="Date de début"
+								value="#{beanCP.astreinte.dateD}" pattern="MM/dd/yyyy HH:mm">
+								<f:ajax event="blur" render="newmsg" />
+							</pf:calendar></td>
+						<td><pf:message id="newmsg" for="dated" /></td>
+					</tr>
+					<tr>
+						<td style="text-align: center;"><h3>Date de fin :</h3></td>
+						<td align="center"><pf:calendar id="datef" size="30"
+								required="true" p:placeholder="Date de fin"
+								value="#{beanCP.astreinte.dateF}" pattern="MM/dd/yyyy HH:mm">
+								<f:ajax event="blur" render="dfmsg" />
+							</pf:calendar></td>
+						<td><pf:message id="dfmsg" for="datef" /></td>
+					</tr>
+					
+					<tr>
+						<td style="text-align: center;"><h3>Affectation :</h3></td>
+						<td style="text-align: center;"><pf:selectCheckboxMenu
+								id="ress" style="width:230px; font-size:15px;"
+								value="#{beanCP.selectedRess}" label="Ressources"
+								panelStyle="width:230px" required="true"
+								requiredMessage="Séléctionnez des ressources">
+								<f:selectItems value="#{mbean['select email from Utilisateur']}" />
+							</pf:selectCheckboxMenu></td>
+						<td style="text-align: center;"><pf:outputPanel id="display"
+								style="width:230px;padding-left:5px;margin-top:10px">
+								<pf:dataList value="#{beanCP.astreinte.ressources}" var="ress"
+									emptyMessage="Aucune ressource séléctionnée">
+																            #{beanCP.selectedRess}
+																        </pf:dataList>
+							</pf:outputPanel></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td style="text-align: center;"><h:commandButton
+								value="Ajouter les ressources"
+								style="width:230px;font-size:15px; 
+															        height:25px;"
+								update="display"></h:commandButton></td>
+					</tr>
+					
+				</table>
+				<br />
+				<div class="footer">
+					<h:commandButton value="Enregistrer"
+						style="width:230px; height:25px;" class="button"
+						action="#{beanCP.addAstreinte()}" />
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+  <utilisateur id="1" accountNonExpired="true" accountNonLocked="true" credentialsNonExpired="true" das="a134368" email="mohamed.bouybaoun@atos.net" enabled="true" login="cp" nom="Bouybaoun" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" prenom="Mohamed" competence_id="300" equipe_id="400"/>
+  <utilisateur id="2" accountNonExpired="true" accountNonLocked="true" credentialsNonExpired="true" das="A12345" email="mohamed.bouybaoun@atos.net" enabled="true" login="dm" nom="dm" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" prenom="dm" competence_id="300" equipe_id="400"/>
+  <utilisateur id="3" accountNonExpired="true" accountNonLocked="true" credentialsNonExpired="true" email="pmo.atos@atos.net" enabled="true" login="pmo" nom="pmo" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" prenom="pmo"/>
+  <utilisateur id="4" accountNonExpired="true" accountNonLocked="true" credentialsNonExpired="true" email="dir.atos@atos.net" enabled="true" login="dir" nom="dir" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" prenom="dir"/>
+  <utilisateur id="5" accountNonExpired="true" accountNonLocked="true" credentialsNonExpired="true" das="" email="mohamed.bouybaoun@atos.net" enabled="true" login="res" nom="res" password="a94a8fe5ccb19ba61c4c0873d391e987982fbbd3" prenom="res"/>
+  <utilisateur id="6" accountNonExpired="true" accountNonLocked="true" credentialsNonExpired="true" das="sdsdsdsd" email="sdsdsd" enabled="false" login="pp" nom="sss" prenom="ssss" equipe_id="400"/>
+  <utilisateur_parameter Utilisateur_id="1" roles_id="43"/>
+  <utilisateur_parameter Utilisateur_id="1" roles_id="44"/>
+  <utilisateur_parameter Utilisateur_id="1" roles_id="45"/>
+  <utilisateur_parameter Utilisateur_id="2" roles_id="41"/>
+  <utilisateur_parameter Utilisateur_id="3" roles_id="40"/>
+  <utilisateur_parameter Utilisateur_id="3" roles_id="42"/>
+  </dataset>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#secure#home.xhtml" PATH="/secure/home.xhtml"
+  SHAPE="408,72,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#astreinte.xhtml"
+  PATH="/secure/astreinte.xhtml" SHAPE="480,96,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#users.xhtml"
+  PATH="/secure/users.xhtml" SHAPE="544,112,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#parameters.xhtml"
+  PATH="/secure/parameters.xhtml" SHAPE="608,136,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#prolongation.xhtml"
+  PATH="/secure/prolongation.xhtml" SHAPE="664,160,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#intervention.xhtml"
+  PATH="/secure/intervention.xhtml" SHAPE="528,216,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#chiffrage.xhtml"
+  PATH="/secure/chiffrage.xhtml" SHAPE="544,272,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#interventions.xhtml"
+  PATH="/secure/interventions.xhtml" SHAPE="770,288,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#passwordupdate.xhtml"
+  PATH="/secure/passwordupdate.xhtml" SHAPE="896,304,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#jf.xhtml" PATH="/secure/jf.xhtml"
+  SHAPE="373,12,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#notifications.xhtml"
+  PATH="/secure/notifications.xhtml" SHAPE="984,336,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#secure#index.xhtml"
+  PATH="/secure/index.xhtml" SHAPE="484,400,0,0"
+  model-entity="JSFProcessGroup" persistent="true"/>
+</PROCESS>

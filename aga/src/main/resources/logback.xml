@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>DAO: %d{HH:mm:ss.SSS} %-5level %logger{5} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="SCHEDULER" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>SCHEDULER: %d{HH:mm:ss.SSS} %-5level %logger{5} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <appender name="WEB" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>WEB: %d{HH:mm:ss.SSS} %-5level %logger{5} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="net.atos.si.ma.mt.astreinte.dao" level="TRACE" additivity="false">
+   <appender-ref ref="STDOUT" />
+  </logger>
+  
+  <logger name="net.atos.si.ma.mt.astreinte.web.managed" level="TRACE" additivity="false">
+   <appender-ref ref="WEB" />
+  </logger>
+  <logger name="net.atos.si.ma.mt.astreinte.service.impl.NotificationServiceImpl" level="TRACE" additivity="false">
+   <appender-ref ref="SCHEDULER" />
+  </logger>
+
+  <!-- Strictly speaking, the level attribute is not necessary since -->
+  <!-- the level of the root level is set to DEBUG by default.       -->
+  <root level="ERROR">          
+    <appender-ref ref="STDOUT" />
+  </root>  
+  
+</configuration>

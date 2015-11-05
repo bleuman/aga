@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">Notifications</ui:define>
+	<ui:define name="contenu">
+		<h:form id="flistr">
+			<!-- <pf:poll interval="10" update="nottable" /> -->
+			<pf:dataTable id="nottable" var="notif"
+				value="#{mbean['from Notification']}" scrollable="true"
+				scrollHeight="250">
+
+
+
+				<pf:column width="10">
+					<f:facet name="header">
+						<h:outputLabel value="id"></h:outputLabel>
+					</f:facet>
+						 	#{notif.id}	
+						 </pf:column>
+				<pf:column width="40">
+					<f:facet name="header">
+						<h:outputLabel value="Astreinte"></h:outputLabel>
+					</f:facet>
+						 			<pf:commandLink action="#{beanCP.updateAstreinte(notif.astreinte!=null ? notif.astreinte:notif.intervention.astreinte )}"
+					ajax="false">
+					<pf:outputLabel value="#{notif.astreinte!=null ? notif.astreinte.ref:notif.intervention.astreinte.ref}	[	#{notif.astreinte!=null ? notif.astreinte.etatAstreinte.keyp:notif.intervention.astreinte.etatAstreinte.keyp}]"></pf:outputLabel>
+					
+				</pf:commandLink>
+						 </pf:column>
+				<pf:column width="40">
+					<f:facet name="header">
+						<h:outputLabel value="Intervention"></h:outputLabel>
+					</f:facet>
+						 	#{notif.intervention!=null?  notif.intervention.id:''} [#{notif.intervention!=null?notif.intervention.etatAstreinte.keyp:''}]
+						 </pf:column>
+				<pf:column width="60">
+
+					<f:facet name="header">
+						<h:outputLabel value="Destinataires"></h:outputLabel>
+					</f:facet>
+
+					<ui:repeat value="#{mbean.toStringArray(notif.destinataires,';')}"
+						var="car">
+
+
+						<h:outputText value="#{car}" />
+						<br />
+					</ui:repeat>
+				</pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Etat" />
+					</f:facet>
+					#{notif.etatAstreinte.keyp}
+
+				</pf:column>
+
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Occurence" />
+					</f:facet>
+					#{notif.occurence}
+				</pf:column>
+
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Content" />
+					</f:facet>
+					<pf:lightBox id="lighbox2">
+						<h:outputLink value="#">
+							<div align="center">
+
+
+								<pf:outputLabel value="Contenu" />
+
+							</div>
+						</h:outputLink>
+
+						<f:facet name="inline">
+							<pf:fieldset>
+								<f:facet name="legend">
+									<h5 align="center">Message</h5>
+								</f:facet>
+								<pf:panelGrid columns="1">
+									<h:outputLabel value="#{notif.subject}" />
+									<h:outputText value="#{notif.content}" escape="false" />
+								</pf:panelGrid>
+							</pf:fieldset>
+						</f:facet>
+					</pf:lightBox>
+
+				</pf:column>
+
+
+
+
+			</pf:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+   <astreinte id="1" dateD="2015-10-01 00:00:00.0" dateF="2015-10-31 00:00:00.0" demandeur="9090_demandeur" entite="Mobile/DSI" ref="9090" ressources="mohamed.bouybaoun@atos.net" sujet="9090-sujet" type="MT" cp_id="1" etatAstreinte_id="9"/>
+  <intervention id="1" dateD="2015-10-14 00:00:00.0" dateF="2015-10-14 10:00:00.0" motif="" astreinte_id="1" etatAstreinte_id="9" typeIntervention_id="21" utilisateur_id="1"/>
+  <astreinte_intervention Astreinte_id="1" interventions_id="1"/>
+  <jf/>
+  <notification id="1" content="%%%%%Bonjour&lt;br/&gt;Vouas avez &#233;t&#233; affect&#233; &#224; l&apos;astreinte r&#233;f&#233;rence : 9090 par le CP: Bouybaoun Mohamed&#xD;&#xA;du: jeu. 01/10/2015 12:00 &#224; sam. 31/10/2015 12:00" destinataires="mohamed.bouybaoun@atos.net" occurence="-1" subject="Gestion Astriente [Affectation] Astreinte R&#233;f&#233;rece : 9090" astreinte_id="1" etatAstreinte_id="9"/>
+  
+</dataset>

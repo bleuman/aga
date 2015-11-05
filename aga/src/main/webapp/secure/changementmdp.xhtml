@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pf="http://primefaces.org/ui">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Reinitialisation</title>
+        <link href="resources/css/template.css" rel="stylesheet" type="text/css" />
+		<link href="resources/css/style.css" rel="stylesheet" type="text/css" />
+		<style type="text/css" media="screen">
+			body, html {
+			    height:100% !important;
+                            background-image: url('resources/images/background.png');
+                            
+			}
+			#content {
+			    height:100% !important;
+			    min-height:550px !important; /* This is the height of your content + height of the footer */
+			}
+			#footer {
+			    height: 30px !important;
+			    margin-top: -30px !important;
+			}
+                        .login-form .content .input {
+	width: 180px;
+	padding: 15px 25px;
+	
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	color: #9d9e9e;
+	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+	
+	background: #fff;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+        
+       
+}
+
+/* Second input field */
+.login-form .content .password, .login-form .content .pass-icon {
+	margin-top: 0px;
+}
+
+.login-form .content .input:hover {
+	background: #dfe9ec;
+	color: #414848;
+}
+
+.login-form .content .input:focus {
+	background: #dfe9ec;
+	color: #414848;
+	
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+}
+
+                        
+		</style>
+		
+		
+    </h:head>
+    <h:body >
+    <div id="templatemo_header">
+					<div id="site_logo"></div>
+					<form method="post" action="home.xhtml" enctype="application/x-www-form-urlencoded" style="margin-top:20px">
+						<p align="right">
+							<font color="#000000" size="3px">
+								<b> <a  href="Auth.xhtml" onclick="Auth.xhtml" class="connection">Page d'authentification</a> </b>
+							</font>
+						</p>
+					</form>
+				</div>
+				
+            <div id="content" style="background-image: url('resources/images/background.png');">
+			
+            <div id="tempatemo_content_wrapper" style="background-image: url('images/background.png');">
+                
+                <table>
+					<tr>
+						<td class="body" width="1100" valign="top" style="margin-bottom: 10px; background-image: url('resources/images/background.png');">
+                                                    <img src="resources/images/logoatos.png" style="margin-top: 50px; margin-left: 350px;"/>
+							<div align="center" style="margin-top: 30px; margin-bottom: 15px;">
+		
+								<div id="container" align="center" style="background-image: url('resources/images/background.png');">
+									<div id="wrapper" style="background-image: url('resources/images/background.png');">
+                                      <h:form id="log"  class="login-form" enctype="application/x-www-form-urlencoded">
+									<div class="content">
+											
+											<table cellpadding="5">
+												<tbody>
+												<tr> </tr>
+                                                <tr><td></td></tr>   
+												<tr> <td style="border-color: #9d9e9e; ">
+                                                     <h:inputSecret  class="input username" id="new" style="width:230px;" p:placeholder="Nouveau mot de passe"  value="#{bean.nmdp1}"/>
+                                                     </td></tr>
+               									<tr><td>
+               									</td></tr>
+               									<tr> <td style="border-color: #9d9e9e; ">
+                                                     <h:inputSecret class="input username" id="newconf" style="width:230px;" p:placeholder="Confirmation de mot de passe"  value="#{bean.nmdp2}"/>
+                                                     </td></tr>
+                                                 </tbody>
+											</table>
+									<div class="footer">
+                                             <table>
+                                             <tr><td>
+                                               <h:commandButton id="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only button" style="width:200px;"  value="Reinitialiser mon mot de passe"  
+                                               action="#{bean.changermdp}">
+                                                </h:commandButton>
+                                             </td> </tr>
+                                             <tr><td>
+                                            
+											 </td></tr>
+											 
+                                            </table>
+                                                                            
+										</div>
+										<h4><h:message  for="new" id="newmsg" /></h4>
+									</div>
+                             </h:form>
+                                                                            
+                     </div>
+				</div>
+        </div>
+		</td></tr>
+		
+	</table>
+			</div>	
+                </div>
+            <div id="footer">
+			<div class="visu">
+				<p class="p-footer" align="center">Tous droits de propriété intellectuelle découlant du présent site sont réservés à Atos.</p>
+			</div>
+		</div>
+
+    </h:body>
+</html>
+

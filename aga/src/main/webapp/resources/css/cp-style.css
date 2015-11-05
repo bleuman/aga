@@ -1,0 +1,39 @@
+body, html {
+	height: 100% !important;
+	margin-bottom: 0;
+	background-image: url('resources/images/background.png')
+}
+
+#content2 {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin-bottom: -30px !important;
+}
+
+#footer {
+	height: 30px !important;
+	position: relative !important;
+	bottom: 0 !important;
+	margin-top: -35px !important;
+}
+
+#push {
+	height: 30px !important;
+}
+
+.jqplot-table-legend {
+	right: -80px !important;
+}
+
+.info {
+	float: left;
+	max-width: 70%;
+	background: url('resources/images/info.png') no-repeat scroll 7px 7px
+		#F5F5F5;
+	border: 1px solid #C0C0C0;
+	padding: 0px 10px 7px 40px;
+	border-radius: 10px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}

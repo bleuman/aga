@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">Ressources</ui:define>
+	<ui:define name="contenu">
+		<h:form>
+			<pf:dataTable var="user" value="#{mbean['from Utilisateur']}" scrollable="true" scrollHeight="300"
+				 >
+				
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Login" />
+					</f:facet>
+                                #{user.login}
+						    </pf:column>
+						    <pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Nom" />
+					</f:facet>
+                                #{user.nom}
+						    </pf:column>
+
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Prénom" />
+					</f:facet>
+                                 #{user.prenom}
+                        </pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Rôle" />
+					</f:facet>
+
+					<ui:repeat var="r" value="#{user.roles}">
+						<h:outputLabel value="#{r.keyp} , " />
+
+					</ui:repeat>
+
+				</pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Equipe" />
+					</f:facet>
+                                 #{user.equipe.keyp}
+                        </pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Compétence" />
+					</f:facet>
+                                #{user.competence.keyp}
+                        </pf:column>
+
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Action" />
+					</f:facet>
+                              	<pf:commandLink value="Modifier compte" ajax="false"
+					action="#{bean.initPasswordupdate(user)}" />
+                        </pf:column>
+
+			
+
+			</pf:dataTable>
+			<pf:commandButton value="Creer un nouveau compte" ajax="false"
+					action="#{bean.initPasswordupdate(null)}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+<h:head>
+	<title>Authentification</title>
+	<link href="/resources/css/template.css" rel="stylesheet"
+		type="text/css" />
+	<link href="/resources/css/style.css" rel="stylesheet" type="text/css" />
+	<style type="text/css" media="screen">
+body, html {
+	height: 100% !important;
+	background-image: url('/resources/images/background.png');
+}
+
+#content {
+	height: 100% !important;
+	min-height: 550px !important;
+	/* This is the height of your content + height of the footer */
+}
+
+#footer {
+	height: 30px !important;
+	margin-top: -30px !important;
+}
+
+.login-form .content .input {
+	width: 180px;
+	padding: 15px 25px;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light",
+		"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	color: #9d9e9e;
+	text-shadow: 1px 1px 0 rgba(256, 256, 256, 1.0);
+	background: #fff;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50);
+	-moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.50);
+}
+
+/* Second input field */
+.login-form .content .password, .login-form .content .pass-icon {
+	margin-top: 0px;
+}
+
+.login-form .content .input:hover {
+	background: #dfe9ec;
+	color: #414848;
+}
+
+.login-form .content .input:focus {
+	background: #dfe9ec;
+	color: #414848;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+</style>
+
+</h:head>
+
+<body>
+	<div id="content"
+		style="background-image: url('resources/images/background.png');">
+
+		<div id="tempatemo_content_wrapper"
+			style="background-image: url('resources/images/background.png');">
+
+			<table>
+				<tr>
+					<td class="body" width="1100" valign="top"
+						style="margin-bottom: 10px; background-image: url('resources/images/background.png');">
+						<img src="/resources/images/logoatos.png"
+						style="margin-top: 50px; margin-left: 350px;" />
+						<div align="center" style="margin-top: 30px; margin-bottom: 15px;">
+
+							<div id="container" align="center"
+								style="background-image: url('resources/images/background.png');">
+								<div id="wrapper"
+									style="background-image: url('resources/images/background.png');">
+									<h:form id="log" class="login-form"
+										enctype="application/x-www-form-urlencoded">
+										<div class="content">
+
+											<table cellpadding="5">
+												<tbody>
+													<tr>
+														<td><br /></td>
+													</tr>
+													<tr>
+														<td>
+															<!--<input placeholder="Login" id="log:login" name="log:login" class="input username" type="text"/>-->
+															<h:inputText class="input username" p:placeholder="Login"
+																label="Login" required="true"
+																value="#{bean.utilisateur.login}" />
+														</td>
+													</tr>
+													<tr>
+														<td></td>
+													</tr>
+													<tr>
+														<td><br /></td>
+													</tr>
+													<tr>
+														<td>
+															<!-- <input placeholder="Password" id="log:pass" name="log:pass" value="" class="input password" type="password"/> -->
+															<h:inputSecret class="input password"
+																p:placeholder="Mot de passe" label="Login"
+																required="true" value="#{bean.utilisateur.password}" />
+														</td>
+													</tr>
+													<tr>
+														<td><br /></td>
+													</tr>
+													<tr>
+														<td></td>
+													</tr>
+												</tbody>
+											</table>
+											<div class="footer">
+												<!-- <button aria-disabled="false" role="button" id="log:j_idt15" name="log:j_idt15" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only button" onclick="PrimeFaces.ab({source:'log:j_idt15',update:'log:growl'});return false;" type="submit"><span class="ui-button-text ui-c">Connexion</span></button> -->
+												<pf:commandButton
+													class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only button"
+													action="#{bean.login()}" value="Connexion" ajax="false"></pf:commandButton>
+												<!-- <input value="Mot de passe oublié?" class="register" onclick="PF('dlg').show()" type="button"/> -->
+												<h:commandLink value="Mot de passe oublié ?"
+													class="register" action="reinitialisation.xhtml"></h:commandLink>
+
+											</div>
+											<pf:messages id="messages" showDetail="true"
+												autoUpdate="true" closable="true" />
+										</div>
+										
+									
+									</h:form>
+								</div>
+							</div>
+
+
+						</div>
+
+
+
+					</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div id="footer">
+		<div class="visu">
+			<p class="p-footer" align="center">Tous droits de propriété
+				intellectuelle découlant du présent site sont réservés à Atos.</p>
+		</div>
+	</div>
+</body>
+
+</html>

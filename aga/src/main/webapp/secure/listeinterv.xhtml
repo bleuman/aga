@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:pf="http://primefaces.org/ui">
+    <h:head>
+        <title>Accueil Ressource</title>
+        <script type="text/javascript" src="js/jquery-ui.js"></script>
+		<link href="resources/css/template.css" rel="stylesheet" type="text/css" />
+		<link href="resources/css/css-table.css" rel="stylesheet" type="text/css" />
+		<style type="text/css" media="screen">
+			body, html {
+			    height:100% !important;
+			    margin-bottom: 0;
+                            background-image: url('resources/images/background.png')
+			}
+			#content2 {
+			    min-height:100%;
+				height: auto !important;
+				height: 100%;
+			    margin-bottom: -30px !important;
+			}
+			#footer {
+			    height: 30px !important;
+				position: relative !important;
+				bottom: 0 !important;
+			    margin-top : -35px !important;
+			}
+			#push {
+				height: 30px !important;
+			}
+			.jqplot-table-legend {
+			    right: -80px !important;
+			}
+			.info {
+				float : left;
+			    max-width: 70%;
+			    background: url('resources/images/info.png') no-repeat scroll 7px 7px #F5F5F5;
+			    border: 1px solid #C0C0C0;
+			    padding: 0px 10px 7px 40px;
+			    border-radius: 10px;
+			    margin-left: 20px;
+			    margin-bottom: 20px;
+			}
+		</style>
+
+    </h:head>
+    <h:body id="pageContent">
+        <div id="content2">
+			<div id="templatemo_header_wrapper">
+			
+				<div id="templatemo_header">
+					<div id="site_logo"></div>
+					<form method="post" action="home.xhtml" enctype="application/x-www-form-urlencoded" style="margin-top:20px">
+						<p align="right">
+							
+						<h:outputLabel id="nom" value="#{bean.dbnom1}  "/> <h:outputText id="prenom" value="#{bean.dbprenom}  "/><b><font color="#000000" size="3px">| <a  href="index.xhtml" onclick="index.xhtml" class="connection">Se Déconnecter</a> </font></b>
+							
+						</p>
+					</form>
+				</div>
+				<div>
+					<p align="right">
+				    	<img src="resources/images/entete.png" width="1100px" style="margin-top:-100px; margin-bottom:-31px; margin-right:18px;" />
+					</p>
+				</div>
+				<div id="templatemo_menu" style="margin-top:13px; margin-left: 200px">
+					
+				</div>
+				<div class="border-menu"> </div><!-- end of header -->
+				
+			</div> <!-- end of header wrapper -->
+			
+			<div id="tempatemo_content_wrapper">
+				
+				<table>
+					<tr>
+						<td width="200" valign="top" style="border: 1px solid #C0C0C0; margin-bottom: 10px; border-radius: 10px; box-shadow: 1px 1px 1px 1px rgba(227, 227, 227, 1); background: #fff;">
+							<div align="center" style="margin-top: 20px; margin-bottom: 10px;">
+								<ul id="menu-accordeon">
+									<li>
+										<a href="PageRess.xhtml" >Liste des astreintes</a>
+									</li>
+									
+                                                                        <li>
+										<a href="listeinterv.xhtml" class="current" >Liste des interventions</a>
+									</li>
+                                                                    <li>
+										<a href="FormInterv.xhtml" class="last">Ajouter une intervention</a>
+									</li>
+								</ul>
+							</div>
+						</td>
+						<td width="6" valign="top">
+							<!--  -->
+						</td>
+						<td class="body" width="894" valign="top" style="border: 1px solid #C0C0C0; margin-bottom: 10px; border-radius: 10px; box-shadow: 1px 1px 1px 1px rgba(227, 227, 227, 1); background: #fff;">
+							<div align="center" style="margin-top: 25px; margin-bottom: 15px;">
+						<pf:dataTable value="#{bean.intervR}" class="patterns" var="interv" id="dtlist" emptyMessage="Aucune intervention trouvée" >
+									        <f:facet name="header">
+									           Liste des interventions de #{bean.dbnom1}
+									        </f:facet>
+									        <pf:column headerText="Référence de l'astreinte" width="70">#{interv.refAstr} </pf:column>
+									        <pf:column headerText="Type de l'astreinte" width="60"> #{bean.typeastr}</pf:column>
+						   					<pf:column headerText="Type" width="70"> #{interv.type}</pf:column>
+									        <pf:column headerText="Date de début" width="80">#{interv.dateD}</pf:column>
+									        <pf:column headerText="Date de fin" width="80">#{interv.dateF}</pf:column>
+									        <pf:column headerText="Nombre d'heures" width="70"> #{interv.charge}</pf:column>
+											<pf:column headerText="Charge en Heure" width="70">#{interv.chiff}</pf:column>
+                        				<!-- <f:facet name="footer" style="background-color:#FFFFFF;">
+                        					Le chiffrage total : #{bean.chiffress} JH
+                        				</f:facet> -->
+						</pf:dataTable>
+								
+                                    
+								
+								
+							</div>
+						</td>
+					</tr>
+				</table>
+                    		<br></br>        
+			</div> <!-- end of content wrapper -->
+			
+			<div id="push"></div>
+		</div>
+		
+		<div id="footer">
+			<div class="visu">
+				<p class="p-footer" align="center">Tous droits de propriété intellectuelle découlant du présent site sont réservés à Atos.</p>
+			</div>
+		</div>
+
+        
+    </h:body>
+</html>
+

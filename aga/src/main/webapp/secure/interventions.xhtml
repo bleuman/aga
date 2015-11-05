@@ -1,0 +1,285 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">Mes Interventions
+
+	</ui:define>
+	<ui:define name="contenu">
+
+
+
+		<h:form id="finter">
+
+			<pf:dataTable var="intervention" id="datas" scrollable="true" scrollHeight="350"
+				value="#{beanR.loadIntervention( bean.utilisateur.id)}">
+				<f:facet name="header">
+					<ui:param name="query"
+						value="select distinct new javax.faces.model.SelectItem(i.astreinte.id ,i.astreinte.ref ||\' - \' ||i.astreinte.etatAstreinte.keyp) from Intervention i  where i.utilisateur.id=${bean.utilisateur.id}" />
+					<pf:outputLabel value="Choisir la  DI " />
+					<pf:selectOneMenu id="ref" value="#{beanR.astreinte.id}">
+						<f:selectItem itemLabel="Tout" itemValue="#{null}" />
+						<f:selectItems value="#{mbean[query]}" />
+						<c:if test="#{mbean.areAnyGranted( 'ROLE_ADMIN')}">
+							<f:param name="paraminterv" value="${null}" />
+
+						</c:if>
+						<c:if test="#{!mbean.areAnyGranted( 'ROLE_ADMIN')}">
+							<f:param name="paraminterv" value="${bean.utilisateur.id}" />
+						</c:if>
+						<pf:ajax event="change" update="finter:datas" />
+
+					</pf:selectOneMenu>
+				</f:facet>
+
+				<pf:column headerText="Id" width="25">
+			 
+#{intervention.id}
+
+
+				</pf:column>
+				<pf:column headerText="Ref" width="40">
+					<pf:outputLabel value="#{intervention.astreinte.ref}" />
+
+
+
+				</pf:column>
+
+				<pf:column headerText="dateD">
+					<h:outputText value="#{intervention.dateD}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
+
+				</pf:column>
+				<pf:column headerText="dateF">
+
+					<h:outputText value="#{intervention.dateF}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+					</h:outputText>
+
+				</pf:column>
+				<pf:column headerText="Type Intervention">
+
+					 #{intervention.typeIntervention.keyp}-#{intervention.typeIntervention.stringValue}
+
+				</pf:column>
+				<pf:column headerText="Ressource">
+
+					 #{intervention.utilisateur.prenom}
+					 #{intervention.utilisateur.nom}
+
+				</pf:column>
+
+
+				<pf:column headerText="Etat">
+					<div align="center">
+						<p>
+							<pf:graphicImage id="img1" value="/resources/icons/play.png"
+								width="40%"
+								rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.EN_COURS}">
+								<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
+									for="img1" />
+
+							</pf:graphicImage>
+							<pf:graphicImage id="img2" value="/resources/icons/checkmark.png"
+								width="40%"
+								rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.VALIDEE}">
+								<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
+									for="img2" />
+
+							</pf:graphicImage>
+
+							<pf:graphicImage id="img3" value="/resources/icons/paste.png"
+								width="40%"
+								rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.A_VALIDER}">
+								<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
+									for="img3" />
+
+							</pf:graphicImage>
+
+
+						</p>
+						<p>
+							<pf:outputLabel value="#{intervention.etatAstreinte.keyp}" />
+						</p>
+					</div>
+				</pf:column>
+				<pf:column width="30">
+					<div align="center" style="babackground-color: red">
+
+
+						<pf:commandLink
+							rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp}"
+							actionListener="#{beanR.updateEtatIntervention(intervention, EtatAstreinte.ID_A_VALIDER)}"
+							ajax="true" update="datas">
+							<div class="grow pic">
+								<pf:graphicImage id="img4" value="/resources/icons/paste.png"
+									rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp}">
+									<pf:tooltip value="#{EtatAstreinte.A_VALIDER}" for="img4" />
+
+								</pf:graphicImage>
+							</div>
+							<p>#{EtatAstreinte.A_VALIDER}</p>
+						</pf:commandLink>
+
+					</div>
+				</pf:column>
+
+				<pf:column width="30" rendered="#{mbean.areAnyGranted( 'ROLE_CP') }">
+					<div align="center">
+
+						<pf:commandLink rendered="#{mbean.areAnyGranted( 'ROLE_CP') }"
+							actionListener="#{beanR.updateEtatIntervention(intervention, EtatAstreinte.ID_EN_COURS)}"
+							ajax="true" update="datas">
+							<div class="grow pic">
+								<pf:graphicImage id="img5" value="/resources/icons/play.png"
+									rendered="#{mbean.areAnyGranted( 'ROLE_CP') }">
+									<pf:tooltip value="#{EtatAstreinte.EN_COURS}" for="img5" />
+
+								</pf:graphicImage>
+							</div>
+							<p style="font-size: 5">En_cours</p>
+						</pf:commandLink>
+					</div>
+				</pf:column>
+				<pf:column width="30">
+					<div align="center">
+						<pf:commandLink
+							rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }"
+							actionListener="#{beanR.updateEtatIntervention(intervention, EtatAstreinte.ID_VALIDEE)}"
+							ajax="true" update="datas">
+							<div class="grow pic">
+								<pf:graphicImage id="img6"
+									value="/resources/icons/checkmark.png" width="40%"
+									rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }">
+									<pf:tooltip value="#{EtatAstreinte.VALIDEE}" for="img6" />
+
+								</pf:graphicImage>
+							</div>
+							<p />
+							<p>Valider</p>
+						</pf:commandLink>
+					</div>
+				</pf:column>
+				<pf:column width="30">
+					<div align="center">
+						<pf:commandLink
+							rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }"
+							actionListener="#{beanR.updateEtatIntervention(intervention, EtatAstreinte.ID_REJETEE)}"
+							ajax="true" update="datas">
+							<div class="grow pic">
+								<pf:graphicImage id="img7" value="/resources/icons/cross.png"
+									rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }">
+									<pf:tooltip value="#{EtatAstreinte.REJETEE}" for="img7" />
+
+								</pf:graphicImage>
+							</div>
+							<p>Rejeter§§</p>
+						</pf:commandLink>
+
+					</div>
+
+
+
+				</pf:column>
+				<pf:column width="30">
+
+					<div align="center">
+						<pf:commandLink
+							rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}"
+							action="#{beanR.editIntervention(intervention)}" ajax="false" update="datas">
+							<div class="grow pic">
+								<pf:graphicImage id="img8" value="/resources/icons/pencil.png"
+									rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}">
+									<pf:tooltip value="Modifier" for="img8" />
+
+								</pf:graphicImage>
+							</div>
+							<p>Modifier</p>
+						</pf:commandLink>
+
+					</div>
+
+
+
+				</pf:column>
+				<pf:column width="30">
+
+					<div align="center">
+						<pf:commandLink
+							rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}"
+							action="#{beanR.removeIntervention(intervention)}" ajax="true" update="datas">
+							<div class="grow pic">
+								<pf:graphicImage id="img9" value="/resources/icons/delete.png"
+									rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}">
+									<pf:tooltip value="Supprimer" for="img9" />
+
+								</pf:graphicImage>
+							</div>
+							<p>Supprimer</p>
+						</pf:commandLink>
+
+					</div>
+
+
+
+
+
+
+				</pf:column>
+			</pf:dataTable>
+			<br />
+			<br />
+		
+			<pf:commandButton value="Ajouter une intervention"
+				action="intervention" ajax="false" icon="ui-icon-pencil" />
+			
+			<pf:commandButton value="Télécharger" ajax="false"
+							onclick="PrimeFaces.monitorDownload(start, stop);"
+							icon="ui-icon-arrowthick-1-s">
+							<pf:fileDownload value="#{beanR.excelRessource(beanR.astreinte.id,bean.utilisateur.id)}" />
+						</pf:commandButton>
+
+						<pf:dialog modal="true" widgetVar="statusDialog" header="Status"
+							draggable="false" closable="false" resizable="false">
+							<pf:graphicImage style="top:100;" width="100"
+								value="/resources/images/loading.gif" />
+						</pf:dialog>
+						<pf:notificationBar position="bottom" effect="slide"
+							widgetVar="bar">
+							<div class="ui-grid ui-grid-responsive">
+								<div class="ui-grid-row">
+
+									<h:outputText
+										value="Veuillez executeur Ctrl Alt Shit F9 pour raffrachir les formules sur Excel"
+										style="font-size:36px;" />
+								</div>
+								<div class="ui-grid-row">
+									<pf:commandButton value="Hide" onclick="PF('bar').hide()"
+										type="button" icon="ui-icon-arrow-1-n" />
+								</div>
+							</div>
+
+
+
+						</pf:notificationBar>
+						<script type="text/javascript">
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+    PF('bar').show();
+}
+</script>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

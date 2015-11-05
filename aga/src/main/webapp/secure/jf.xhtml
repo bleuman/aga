@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">Gestion des jours fériers</ui:define>
+	<ui:define name="contenu">
+		<h:form>
+
+			<pf:dialog id="basic" showEffect="explode" hideEffect="bounce"
+				header=" Interventions en chevechement" widgetVar="dlg1"
+				closable="true" visible="false" width="300px">
+
+
+				<pf:outputLabel for="jfd" value="Jour" />
+				<pf:calendar id="jfd" value="#{beanCP.jf.dateJour}" required="true" />
+				<pf:commandButton value="Ajouter" oncomplete="PF('dlg1').hide();"
+					action="#{beanCP.addJf(beanCP.jf)}" update="listjf"
+					icon="ui-icon-delete" />
+
+			</pf:dialog>
+		</h:form>
+
+		<pf:panel id="listjf"  style="border: 0;align:center">
+
+
+			<h:form>
+				<pf:panel style="border: hidden;">
+					<pf:commandButton value="Ajouter un jour Férier" type="button"
+						onclick="PF('dlg1').show();" />
+				</pf:panel>
+				<h:panelGrid columns="5">
+					<pf:outputLabel for="cyear" value="Année" />
+					<pf:selectOneMenu id="cyear" value="#{beanCP.year}">
+
+
+						<f:selectItems
+							value="#{mbean['select distinct   new javax.faces.model.SelectItem(YEAR(dateJour)||\'\' ,YEAR(dateJour) ||\'\') from Jf order by 1']}" />
+
+					</pf:selectOneMenu>
+
+
+					<pf:outputLabel for="cmonth" value="Mois" />
+					<pf:selectOneMenu value="#{beanCP.month}" id="cmonth">
+
+						<f:selectItems
+							value="#{mbean['select distinct   new javax.faces.model.SelectItem(MONTH(dateJour) ||\'\'  ,MONTH(dateJour)||\'\' ) from Jf order by 1']}" />
+
+					</pf:selectOneMenu>
+					<ui:param name="dquery"
+						value="from Jf where YEAR(dateJour) =  ${beanCP.year} and MONTH(dateJour) = ${beanCP.month} order by dateJour" />
+					<pf:commandButton value="Chercher" update="datajf" />
+				</h:panelGrid>
+				<pf:dataTable var="j" value="#{mbean[dquery]}" id="datajf"
+					style="width: 40%">
+					<f:facet name="header">
+								        Jours Fériers: #{beanCP.month}/#{beanCP.year} 
+						 </f:facet>
+
+
+					<pf:column headerText="Jour">
+						<h:outputText value="#{j.dateJour}" style="color:#000000;">
+							<f:convertDateTime pattern="EEE dd/MM/yyyy" />
+						</h:outputText>
+
+					</pf:column>
+					<pf:column headerText="Actions">
+						<pf:commandButton value="Supprimer" action="#{beanCP.removeJf(j)}"
+							icon="ui-icon-delete" />
+					</pf:column>
+
+				</pf:dataTable>
+
+
+
+
+			</h:form>
+
+
+		</pf:panel>
+	</ui:define>
+</ui:composition>

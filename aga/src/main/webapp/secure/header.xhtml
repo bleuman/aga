@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div id="templatemo_header">
+		<div id="site_logo"></div>
+		<form method="post" action="home.xhtml"
+			enctype="application/x-www-form-urlencoded" style="margin-top: 20px">
+			<p align="right">
+
+				<h:outputLabel id="nom" value="#{bean.utilisateur.nom}  ">
+				</h:outputLabel>
+				<h:outputText id="prenom" value="#{bean.utilisateur.prenom}"></h:outputText>
+				<b><font color="#000000" size="3px">| <a
+						href="index.xhtml" onclick="index.xhtml" class="connection">Se
+							Déconnecter ...</a>
+				</font></b>
+
+			</p>
+		</form>
+	</div>
+</ui:composition>

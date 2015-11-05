@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<f:view contentType="text/html" id="fview">
+	<pe:importConstants
+		className="net.atos.si.ma.mt.astreinte.model.EtatAstreinte"
+		var="EtatAstreinte" />
+	<h:head>
+		<title>Accueil CP et DM</title>
+		<script type="text/javascript" src="../resources/js/jquery-ui.js"></script>
+		<link href="../resources/css/template.css" rel="stylesheet"
+			type="text/css" />
+		<link href="/resources/css/css-table.css" rel="stylesheet"
+			type="text/css" />
+
+	</h:head>
+	<h:body id="pageContent">
+
+
+		<table border="0" width="100%">
+			<tr>
+
+				<td colspan="2" align="center"><h:form>
+						<h:panelGrid columns="2" style="align:left">
+
+							<pf:commandLink action="home" ajax="false">
+								<pf:graphicImage value="/resources/images/logoatos.png"
+									style="width: 60%;" />
+							</pf:commandLink>
+							<pf:graphicImage value="/resources/images/app-log.png"
+								style="width: 60%;" />
+						</h:panelGrid>
+						<pf:toolbar>
+							<f:facet name="right">
+								<h:outputText
+									value="#{bean.utilisateur.nom} #{bean.utilisateur.prenom}" />
+									
+						 (<c:forEach var="r" items="#{bean.utilisateur.roles}">
+									<h:outputLabel value="#{r.keyp}" />,
+						</c:forEach>
+						)</f:facet>
+							<f:facet name="left">
+
+								<pf:selectOneMenu value="#{bean.theme}" id="theme"
+									onchange="submit();">
+
+									<f:selectItems
+										value="#{mbean['select new javax.faces.model.SelectItem(e.keyp,\'Thème: \' ||e.keyp) from Theme  e']}" />
+								</pf:selectOneMenu>
+							</f:facet>
+
+
+
+						</pf:toolbar>
+					</h:form></td>
+			</tr>
+			<tr>
+				<td width="20%" valign="top" rowspan="2"><pf:fieldset>
+						<f:facet name="legend">
+							<h2 align="center">Menu</h2>
+						</f:facet>
+						<h:form>
+
+							<pf:panelMenu style="width:100%">
+
+								<pf:submenu expanded="true"
+									label="#{bean.utilisateur.nom} #{bean.utilisateur.prenom}">
+									<pf:menuitem value="Modifier compte" ajax="false"
+										action="#{bean.initPasswordupdate(bean.utilisateur)}"
+										icon="ui-icon-user" />
+									<pf:menuitem value="Déconnexion #{request.contextPath}"
+										url="../logout" icon="ui-icon-arrowrefresh-1-w" />
+								</pf:submenu>
+								<c:if test="#{mbean.areAnyGranted( 'ROLE_ADMIN')}">
+									<pf:submenu expanded="true" label="Administration">
+
+
+
+										<pf:menuitem value="Interventions"
+											action="interventions_admin" ajax="false" icon="ui-icon-home">
+
+
+											<f:param name="paraminterv" value="${null}" />
+
+
+
+										</pf:menuitem>
+
+										<pf:menuitem value="Liste des astreintes (Admin)"
+											action="home_admin" ajax="false" icon="ui-icon-home" />
+
+
+										<pf:menuitem value="Notifications" action="notifications"
+											ajax="false" icon="ui-icon-home">
+										</pf:menuitem>
+
+										<pf:menuitem value="Liste des utilisateurs" action="users"
+											ajax="false" icon="ui-icon-check" />
+										<pf:menuitem value="Créer un utilisateur"
+											action="#{bean.initPasswordupdate(null)}" ajax="false"
+											icon="ui-icon-check" />
+										<pf:menuitem value="Règles et coéfficients"
+											action="parameters" ajax="false" icon="ui-icon-check" />
+										<pf:menuitem value="Jours Fériers" action="jf" ajax="false"
+											icon="ui-icon-close" />
+
+									</pf:submenu>
+								</c:if>
+								<c:if test="#{mbean.areAnyGranted( 'ROLE_RES')}">
+									<pf:submenu expanded="true" label="Mes Interventions">
+										<pf:menuitem value="Mes interventions" action="interventions"
+											ajax="false" icon="ui-icon-home">
+
+
+
+
+											<f:param name="paraminterv" value="${bean.utilisateur.id}" />
+
+										</pf:menuitem>
+										<pf:menuitem value="Ajouter une intervention"
+											action="intervention" ajax="false" icon="ui-icon-pencil" />
+									</pf:submenu>
+									<pf:separator />
+								</c:if>
+								<c:if
+									test="#{mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_CP,ROLE_DIR,ROLE_DM,ROLE_PMO')}">
+									<pf:submenu expanded="true" label="Gestion des astreintes">
+										<c:if test="#{mbean.areAnyGranted( 'ROLE_CP')}">
+											<pf:menuitem value="Liste des astreintes (CP)" action="home"
+												ajax="false" icon="ui-icon-home" />
+										</c:if>
+										<c:if test="#{mbean.areAnyGranted( 'ROLE_DM')}">
+											<pf:menuitem value="Liste des astreintes (DM)"
+												action="homeDM" ajax="false" icon="ui-icon-home" />
+										</c:if>
+										<c:if test="#{mbean.areAnyGranted( 'ROLE_DIR')}">
+											<pf:menuitem value="Liste des astreintes (DIR)"
+												action="homeDIR" ajax="false" icon="ui-icon-home" />
+										</c:if>
+										<c:if test="#{mbean.areAnyGranted( 'ROLE_CP')}">
+											<pf:menuitem value="Ajouter une astreinte"
+												action="#{beanCP.initNewAstreinte('astreinte')}"
+												ajax="false" icon="ui-icon-pencil" />
+										</c:if>
+										<c:if
+											test="#{mbean.areAnyGranted( 'ROLE_CP,ROLE_DIR,ROLE_DM')}">
+											<pf:menuitem value="Détail astreinte" action="chiffrage"
+												ajax="false" icon="ui-icon-check" />
+										</c:if>
+									</pf:submenu>
+								</c:if>
+
+							</pf:panelMenu>
+
+						</h:form>
+
+					</pf:fieldset></td>
+
+				<td align="center" valign="top"><pf:fieldset>
+						<f:facet name="legend">
+							<h2 align="center">
+								<ui:insert name="titre" />
+							</h2>
+
+						</f:facet>
+
+
+						<pf:messages id="messages" showDetail="true" autoUpdate="true"
+							closable="true" />
+						<ui:insert name="contenu" />
+						<pf:ajaxStatus
+							style="display:block;margin-bottom:2em;height:24px;">
+							<f:facet name="default">
+
+							</f:facet>
+
+							<f:facet name="start">
+
+
+								<div style="position: fixed; top: 0%; left: 0%;">
+									<pf:graphicImage style="top:100;" width="50%"
+										value="/resources/images/loading.gif" />
+								</div>
+
+
+							</f:facet>
+
+							<f:facet name="complete">
+
+							</f:facet>
+						</pf:ajaxStatus>
+
+					</pf:fieldset></td>
+
+
+
+			</tr>
+			<tr>
+				<td><pf:panel>
+						<p class="p-footer" align="center">Tous droits de propriété
+							intellectuelle découlant du présent site sont réservés à Atos.</p>
+
+						<c:if test="#{mbean.areAnyGranted( 'ROLE_DEV')}">
+							<pf:lightBox id="lighbox2">
+								<h:outputLink value="#">
+									<div align="center">
+
+
+										<pf:outputLabel value="Infos  Developpeur" />
+
+									</div>
+								</h:outputLink>
+
+								<f:facet name="inline">
+									<pf:fieldset>
+										<f:facet name="legend">
+											<h5 align="center">Infos</h5>
+										</f:facet>
+										<pf:dataTable var="s" value="#{bean.listBeansSpring}" scrollable="true"
+											scrollHeight="300">
+											<pf:column>#{s}</pf:column>
+								 
+										
+						 
+							 
+								</pf:dataTable>
+									</pf:fieldset>
+								</f:facet>
+							</pf:lightBox>
+
+						</c:if>
+
+					</pf:panel></td>
+			</tr>
+
+		</table>
+
+
+
+
+
+	</h:body>
+</f:view>
+</html>
+

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+   <parameter DTYPE="Entite" id="1" keyp="Mobile/DSI" longValue="12" stringValue="Mobile/DSI"/>
+  <parameter DTYPE="Entite" id="2" keyp="Mobile/DSV" stringValue="Mobile/DSV"/>
+  <parameter DTYPE="Entite" id="3" keyp="Fix/DSV" stringValue="Fix/DSV"/>
+  <parameter DTYPE="Entite" id="4" keyp="Fix/DSI" stringValue="Fix/DSI"/>
+  <parameter DTYPE="Entite" id="5" keyp="Aucune" stringValue="Aucune"/>
+  <parameter DTYPE="TypeAstreinte" id="6" keyp="Interne" stringValue="Interne"/>
+  <parameter DTYPE="TypeAstreinte" id="7" keyp="MT" stringValue="MT"/>
+  <parameter DTYPE="TypeAstreinte" id="8" keyp="SST" stringValue="SST"/>
+  <parameter DTYPE="EtatAstreinte" id="9" keyp="En cours" stringValue="En cours"/>
+  <parameter DTYPE="EtatAstreinte" id="10" keyp="Terminu00e9e" stringValue="Terminu00e9e"/>
+  <parameter DTYPE="EtatAstreinte" id="11" keyp="Validu00e9e" stringValue="Validu00e9e"/>
+  <parameter DTYPE="EtatAstreinte" id="12" keyp="A Valider" stringValue="A Valider"/>
+  <parameter DTYPE="EtatAstreinte" id="13" keyp="Rejetu00e9e" stringValue="Rejetu00e9e"/>
+  <parameter DTYPE="TypeIntervention" id="21" doubleValue="1.0" keyp="Samedi" longValue="100" stringValue="Site"/>
+  <parameter DTYPE="TypeIntervention" id="22" doubleValue="1.0" keyp="Soir" longValue="120" stringValue="Site"/>
+  <parameter DTYPE="TypeIntervention" id="23" doubleValue="2.0" keyp="Dimanche" longValue="200" stringValue="Site"/>
+  <parameter DTYPE="TypeIntervention" id="24" doubleValue="2.0" keyp="Jour feriu00e9" longValue="200" stringValue="Site"/>
+  <parameter DTYPE="TypeIntervention" id="25" doubleValue="0.0" keyp="Tu00e9lu00e9phone" longValue="33" stringValue="Tu00e9lu00e9phone"/>
+  <parameter DTYPE="TypeIntervention" id="26" doubleValue="1.0" keyp="Jour" longValue="100" stringValue="Site"/>
+  <parameter DTYPE="Role" id="40" keyp="ROLE_RES" stringValue="theme"/>
+  <parameter DTYPE="Role" id="41" keyp="ROLE_DM" stringValue="NULL"/>
+  <parameter DTYPE="Role" id="42" keyp="ROLE_PMO" stringValue="NULL"/>
+  <parameter DTYPE="Role" id="43" keyp="ROLE_DIR" stringValue="NULL"/>
+  <parameter DTYPE="Role" id="44" keyp="ROLE_CP" stringValue="NULL"/>
+  <parameter DTYPE="Role" id="45" keyp="ROLE_ADMIN" stringValue="NULL"/>
+  <parameter DTYPE="Role" id="46" keyp="ROLE_DEV" stringValue=""/>
+  <parameter DTYPE="Competence" id="300" keyp="BSCS" stringValue="BSCS"/>
+  <parameter DTYPE="Competence" id="301" keyp="NETO" stringValue="NETO"/>
+  <parameter DTYPE="Equipe" id="400" keyp="BO" stringValue="BO"/>
+  <parameter DTYPE="Equipe" id="401" keyp="TIG" stringValue="TIG"/>
+  <parameter DTYPE="Equipe" id="402" keyp="UDD" stringValue="UDD"/>
+  <parameter DTYPE="Theme" id="500" keyp="bootstrap" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="501" keyp="afterdark" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="502" keyp="afternoon" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="503" keyp="afterwork" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="504" keyp="black-tie" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="505" keyp="blitzer" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="506" keyp="bluesky" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="507" keyp="bootstrap" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="508" keyp="casablanca" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="509" keyp="cruze" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="510" keyp="cupertino" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="511" keyp="dark-hive" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="512" keyp="delta" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="513" keyp="dot-luv" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="514" keyp="eggplant" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="515" keyp="excite-bike" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="516" keyp="flick" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="517" keyp="glass-x" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="518" keyp="home" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="519" keyp="hot-sneaks" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="520" keyp="humanity" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="521" keyp="le-frog" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="522" keyp="midnight" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="523" keyp="mint-choc" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="524" keyp="overcast" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="525" keyp="pepper-grinder" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="526" keyp="redmond" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="527" keyp="rocket" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="528" keyp="sam" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="529" keyp="smoothness" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="530" keyp="south-street" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="531" keyp="start" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="532" keyp="sunny" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="533" keyp="swanky-purse" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="534" keyp="trontastic" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="535" keyp="ui-darkness" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="536" keyp="ui-lightness" stringValue="NULL"/>
+  <parameter DTYPE="Theme" id="537" keyp="vader" stringValue="NULL"/>    
+</dataset>

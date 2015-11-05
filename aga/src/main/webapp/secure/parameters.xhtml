@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">Parameters</ui:define>
+	<ui:define name="contenu">
+		<h:form id="flistr">
+
+			<pf:dataTable  var="rule" value="#{mbean['from Parameter']}">
+			 
+
+				<pf:column headerText="Type Parameter" width="70">
+				
+							#{rule.class.simpleName}
+						</pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="id"></h:outputLabel>
+					</f:facet>
+						 	#{rule.id}	
+						 </pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="key"></h:outputLabel>
+					</f:facet>
+						 	#{rule.keyp}
+						 </pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Version"></h:outputLabel>
+					</f:facet>
+						 	#{rule.version}
+						 </pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="StringValue" />
+					</f:facet>
+					#{rule.stringValue}
+
+				</pf:column>
+
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="DoubleValue" />
+					</f:facet>
+					#{rule.doubleValue}
+				</pf:column>
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="LongValue" />
+					</f:facet>
+					#{rule.longValue}
+				</pf:column>
+
+				<pf:column width="60">
+					<f:facet name="header">
+						<h:outputLabel value="Action" />
+					</f:facet>
+					<pf:commandLink value="Modifier"
+						action="#{beanCP.initUpadteParameter(rule)}"
+						oncomplete="PF('eventDialog').show();" update="fupdatezone:editzone" />
+				</pf:column>
+
+
+			</pf:dataTable>
+		</h:form>
+		<h:form id="fupdatezone">
+			<pf:panel id="editzone">
+				<pf:dialog widgetVar="eventDialog" header="Parameter"
+					showEffect="clip" hideEffect="clip">
+					<h:panelGrid id="eventDetails" columns="2">
+						<h:outputLabel value="Key" />
+						<pf:inputText value="#{beanCP.parameter.keyp}" />
+						<h:outputLabel for="stringValue" value="StringValue" />
+						<pf:inputText id="stringValue"
+							value="#{beanCP.parameter.stringValue}" />
+						<h:outputLabel for="dateValue" value="DateValue" />
+						<pf:inputText id="dateValue" value="#{beanCP.parameter.dateValue}" />
+						<h:outputLabel for="longValue" value="LongValue" />
+						<pf:inputText id="longValue" value="#{beanCP.parameter.longValue}" />
+						<h:outputLabel for="doubleValue" value="DoubleValue" />
+						<pf:inputText id="doubleValue"
+							value="#{beanCP.parameter.doubleValue}" />
+
+
+
+						<pf:commandButton id="addButton" value="Sauvegarder"
+							action="#{beanCP.updateParameter(beanCP.parameter)}"
+							oncomplete="PF('eventDialog').hide();" update="flistr"/>
+					</h:panelGrid>
+				</pf:dialog>
+			</pf:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

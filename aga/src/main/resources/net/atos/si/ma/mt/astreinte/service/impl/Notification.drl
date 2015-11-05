@@ -1,0 +1,101 @@
+package net.atos.si.ma.mt.astreinte.service.impl
+ 
+import org.slf4j.Logger;
+import net.atos.si.ma.mt.astreinte.model.Notification;
+import net.atos.si.ma.mt.astreinte.model.Astreinte;
+import net.atos.si.ma.mt.astreinte.model.Intervention;
+import net.atos.si.ma.mt.astreinte.model.EtatAstreinte
+import net.atos.si.ma.mt.astreinte.service.impl.NotificationUtils;
+import net.atos.si.ma.mt.astreinte.service.impl.AstreinteUtils;
+
+function void saveAndEmail(Notification n) {
+		n.incrimentOccurence();
+		System.out.println(" Proccessing 1 "+ n +" with occu : "+n.getOccurence());
+		NotificationUtils.notificationService.save(n);
+		NotificationUtils.notificationService.sendMail(n);
+}
+
+function void archive(Notification n) {
+		System.out.println(" Archiving "+n);
+		n.setOccurence(-1* n.getOccurence() -1);
+		NotificationUtils.notificationService.save(n);
+} 
+
+function void aValiderAstreinte(Astreinte a) {
+		System.out.println(" A ValiderAstreinte "+ a);
+		System.out.println(" Try To load EtatAstreinte for id = "+ EtatAstreinte.ID_A_VALIDER);
+		a.setEtatAstreinte(AstreinteUtils.etatAstreinteService.load(EtatAstreinte.ID_A_VALIDER));
+		AstreinteUtils.astreinteService.save(a);
+}
+
+function void validerAstreinte(Astreinte a) {
+		System.out.println(" Valider Astreinte "+ a);
+		a.setEtatAstreinte(AstreinteUtils.etatAstreinteService.load(EtatAstreinte.ID_VALIDEE));
+		AstreinteUtils.astreinteService.save(a);
+}
+
+
+
+//global  Logger log 
+ 
+
+
+rule "Archive Notification 1"
+	when
+		n : Notification(astreinte!=null && ( occurence >  NotificationUtils.notificationService.getSeuil() || 
+		etatAstreinte.id != astreinte.etatAstreinte.id ||
+		astreinte.etatAstreinte.id==EtatAstreinte.ID_EN_COURS))
+	then
+		archive(n);
+		
+end
+
+rule "Process Notification 1"
+	when
+		n : Notification( astreinte!=null && !(( occurence >  NotificationUtils.notificationService.getSeuil() || 
+		etatAstreinte.id != astreinte.etatAstreinte.id || 
+		astreinte.etatAstreinte.id==EtatAstreinte.ID_EN_COURS)))
+	then
+		saveAndEmail(n);
+end
+
+
+
+
+
+rule "Intervention to validate"
+	when 
+		$x : Intervention(etatAstreinte.id==EtatAstreinte.ID_A_VALIDER && astreinte.etatAstreinte.id==EtatAstreinte.ID_EN_COURS)
+		forall($i : Intervention(etatAstreinte.id==EtatAstreinte.ID_A_VALIDER) from $x.astreinte.interventions)
+	then
+	aValiderAstreinte($x.getAstreinte());
+end
+
+rule "Validated Intervention"
+	when 
+		$x : Intervention(etatAstreinte.id==EtatAstreinte.ID_VALIDEE && astreinte.etatAstreinte.id==EtatAstreinte.ID_A_VALIDER)
+		forall($i : Intervention(etatAstreinte.id==EtatAstreinte.ID_VALIDEE) from $x.astreinte.interventions)
+	then
+	 validerAstreinte($x.getAstreinte());
+end
+
+
+rule "Archive Notification 2"
+	when
+		n : Notification(intervention!=null &&( occurence >  NotificationUtils.notificationService.getSeuil() || 
+		etatAstreinte.id != intervention.etatAstreinte.id ||  
+		intervention.etatAstreinte.id==EtatAstreinte.ID_EN_COURS))
+	then
+		archive(n);
+		
+end
+
+rule "Process Notification 2"
+	when
+		n : Notification( intervention!=null && !(( occurence >  NotificationUtils.notificationService.getSeuil() || 
+		etatAstreinte.id != intervention.etatAstreinte.id ||  
+		intervention.etatAstreinte.id==EtatAstreinte.ID_EN_COURS)))
+	then
+		saveAndEmail(n);
+end
+		

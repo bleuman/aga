@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">
+	Astreintes
+	</ui:define>
+	<ui:define name="contenu">
+
+		<h:form>
+			<ui:param name="query"
+				value="from Astreinte a where a.cp.id = ${bean.utilisateur.id} and a.etatAstreinte not in (10) " />
+			
+			
+
+			<ui:include src="detail_astreinte.xhtml" />
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,298 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/template.xhtml">
+
+	<ui:define name="titre">Détail de l'astreinte</ui:define>
+	<ui:define name="contenu">
+		<h:form id="astr" style="border:0;"
+			enctype="application/x-www-form-urlencoded">
+			<c:if
+				test="#{mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_DIR,ROLE_DM,ROLE_PMO')}">
+				<ui:param name="query"
+					value="select new javax.faces.model.SelectItem(a.id ,a.ref|| \' : \' ||a.sujet) from Astreinte a" />
+			</c:if>
+			<c:if
+				test="#{!mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_DIR,ROLE_DM,ROLE_PMO')}">
+				<ui:param name="query"
+					value="select new javax.faces.model.SelectItem(a.id ,a.ref|| \' : \' ||a.sujet) from Astreinte a where a.etatAstreinte.id not in (10)" />
+			</c:if>
+
+
+			<pf:panelGrid>
+				<pf:row>
+
+					<pf:column>
+						<h:outputLabel value="La référence de la DI" />
+					</pf:column>
+
+					<pf:column>
+
+						<pf:selectOneMenu id="ref" value="#{beanCP.astreinte.id}"  rendered="#{!mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_DIR,ROLE_DM,ROLE_PMO')}" 
+							style="width:300px">
+							<f:selectItem itemLabel="" itemValue="#{null}" />
+							<f:selectItems value="#{mbean[query]}" />
+							<f:ajax listener="#{beanCP.listenerAstreinte}"
+								render="contentdata" />
+
+						</pf:selectOneMenu>
+
+						<br />
+
+
+						<pf:inputText value="#{beanCP.refAstrinte}" rendered="#{mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_DIR,ROLE_DM,ROLE_PMO')}" />
+
+					</pf:column>
+					<pf:column rendered="#{mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_DIR,ROLE_DM,ROLE_PMO')}" >
+						<pf:commandButton value="Chercher"  
+							action="#{beanCP.listenerAstreinteByRef()}" ajax="true"
+							update="contentdata" />
+					</pf:column>
+				</pf:row>
+
+
+			</pf:panelGrid>
+
+			<pf:panel id="contentdata" style="border:0;">
+				<pf:panelGrid rendered="#{beanCP.astreinte.id!=null}">
+					<pf:row>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Le type de la DI" />
+						</pf:column>
+						<pf:column>
+							<h:outputText id="typea" value="#{beanCP.astreinte.type}"
+								style="color:#000000; text-align:center;" />
+
+						</pf:column>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Le sujet de la DI" />
+
+						</pf:column>
+						<pf:column>
+							<h:outputText id="sujeta" value="#{beanCP.astreinte.sujet}"
+								style="color:#000000;" />
+						</pf:column>
+
+					</pf:row>
+					<pf:row>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Demandeur" />
+						</pf:column>
+						<pf:column>
+							<h:outputText id="demandeur"
+								value="#{beanCP.astreinte.demandeur}" style="color:#000000;" />
+						</pf:column>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Ressources" />
+						</pf:column>
+						<pf:column>
+							<ui:repeat
+								value="#{mbean.toStringArray(beanCP.astreinte.ressources,'~')}"
+								var="car">
+
+
+								<span> #{car}</span>
+								<br />
+
+							</ui:repeat>
+						</pf:column>
+					</pf:row>
+					<pf:row>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Date de début" />
+						</pf:column>
+						<pf:column>
+							<h:outputText id="dtda" value="#{beanCP.astreinte.dateD}"
+								style="color:#000000;">
+								<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</pf:column>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Date de fin" />
+						</pf:column>
+						<pf:column>
+							<h:outputText id="dtfa" value="#{beanCP.astreinte.dateF}"
+								style="color:#000000;">
+								<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</pf:column>
+					</pf:row>
+					<pf:row>
+						<pf:column styleClass="ui-widget-header">
+							<h:outputLabel value="Etat" />
+						</pf:column>
+						<pf:column>
+							<h:outputText id="detat"
+								value="#{beanCP.astreinte.etatAstreinte.keyp}"
+								style="color:#000000;" />
+							<h:outputLabel value="CP" />
+						</pf:column>
+						<pf:column styleClass="ui-widget-header"></pf:column>
+						<pf:column>
+							<h:outputText id="cpid"
+								value="#{beanCP.astreinte.cp.nom}  #{beanCP.astreinte.cp.prenom }"
+								style="color:#000000;" />
+						</pf:column>
+					</pf:row>
+
+
+					<pf:row>
+						<pf:column colspan="4">
+							<pf:panel id="datapanel" style="border:0"
+								rendered="#{beanCP.astreinte.id != null}">
+
+
+
+								<div style="width: 1000px;">
+
+									<pf:dataTable value="#{beanCP.astreinte.interventions}"
+										var="interv" id="dtlist"
+										emptyMessage="Aucune intervention trouvée">
+										<f:facet name="header">
+									           Liste des interventions
+									        </f:facet>
+										<pf:column headerText="Ressource" width="200">
+											<span>#{interv.utilisateur.nom}
+												#{interv.utilisateur.prenom}</span>
+										</pf:column>
+										<pf:column headerText="Type" width="160">
+											<span> #{interv.typeIntervention.stringValue} /
+												#{interv.typeIntervention.doubleValue}</span>
+										</pf:column>
+										<pf:column headerText="Date de début" width="140">
+											<h:outputText id="intd" value="#{interv.dateD}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+										<pf:column headerText="Date de fin" width="140">
+											<h:outputText id="intf" value="#{interv.dateF}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+										<pf:column headerText="Durée" width="50">
+											<span><h:outputText value="#{interv.duration}">
+													<f:convertNumber pattern="#0.00" />
+												</h:outputText></span>
+										</pf:column>
+										<pf:column headerText="Charge" width="50">
+											<span> <h:outputText value="#{interv.charge}">
+													<f:convertNumber pattern="#0.00" />
+												</h:outputText>
+											</span>
+										</pf:column>
+
+										<pf:column headerText="Etat">
+											<span>#{interv.etatAstreinte.keyp}</span>
+
+										</pf:column>
+
+
+
+
+										<f:facet name="footer" style="background-color:#FFFFFF;">
+							
+							Durée total : <h:outputText value="#{beanCP.astreinte.duration}">
+												<f:convertNumber pattern="#0.00" />
+											</h:outputText> H 
+        Chiffrage total : <h:outputText
+												value="#{beanCP.astreinte.charge}">
+												<f:convertNumber pattern="#0.00" />
+											</h:outputText> JH 
+        </f:facet>
+
+
+									</pf:dataTable>
+
+								</div>
+
+
+
+
+							</pf:panel>
+						</pf:column>
+
+					</pf:row>
+
+					<pf:row>
+						<pf:column colspan="4">
+							<div class="footer">
+								<pf:commandButton
+									rendered="#{mbean.areAnyGranted('ROLE_CP') and ( beanCP.astreinte.etatAstreinte.keyp == 'En cours' or  beanCP.astreinte.etatAstreinte.keyp == 'Rejetée') and bean.utilisateur.id == beanCP.astreinte.cp.id}"
+									action="#{beanCP.validerAsteinte(beanCP.astreinte.id,5)}"
+									ajax="false" value="#{EtatAstreinte.A_VALIDER}"
+									icon="ui-icon-disk" />
+
+								<pf:commandButton
+									rendered="#{mbean.areAnyGranted( 'ROLE_DM') and beanCP.astreinte.etatAstreinte.keyp == 'A Valider'}"
+									action="#{beanCP.validerAsteinte(beanCP.astreinte.id,2)}"
+									ajax="false" value="#{EtatAstreinte.VALIDEE}"
+									icon="ui-icon-disk" />
+								<pf:commandButton
+									action="#{beanCP.validerAsteinte(beanCP.astreinte.id,3)}"
+									rendered="#{mbean.areAnyGranted( 'ROLE_DM') and beanCP.astreinte.etatAstreinte.keyp == 'A Valider'}"
+									ajax="false" value="#{EtatAstreinte.REJETEE}"
+									icon="ui-icon-disk" />
+								<pf:commandButton
+									action="#{beanCP.validerAsteinte(beanCP.astreinte.id,4)}"
+									rendered="#{mbean.areAnyGranted('ROLE_DIR')}" ajax="false"
+									value="#{EtatAstreinte.TERMINEE}" icon="ui-icon-disk" />
+
+
+
+								<pf:commandButton value="Télécharger" ajax="false"
+									onclick="PrimeFaces.monitorDownload(start, stop);"
+									icon="ui-icon-arrowthick-1-s">
+									<pf:fileDownload value="#{beanCP.excel()}" />
+								</pf:commandButton>
+
+								<pf:dialog modal="true" widgetVar="statusDialog" header="Status"
+									draggable="false" closable="false" resizable="false">
+									<pf:graphicImage style="top:100;" width="100"
+										value="/resources/images/loading.gif" />
+								</pf:dialog>
+								<pf:notificationBar position="bottom" effect="slide"
+									widgetVar="bar">
+									<div class="ui-grid ui-grid-responsive">
+										<div class="ui-grid-row">
+
+											<h:outputText
+												value="Veuillez executeur Ctrl Alt Shit F9 pour raffrachir les formules sur Excel"
+												style="font-size:36px;" />
+										</div>
+										<div class="ui-grid-row">
+											<pf:commandButton value="Hide" onclick="PF('bar').hide()"
+												type="button" icon="ui-icon-arrow-1-n" />
+										</div>
+									</div>
+
+
+
+								</pf:notificationBar>
+								<script type="text/javascript">
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+    PF('bar').show();
+}
+</script>
+							</div>
+						</pf:column>
+					</pf:row>
+				</pf:panelGrid>
+
+
+
+			</pf:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

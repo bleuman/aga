@@ -1,0 +1,248 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/resources/template.xhtml">
+	<ui:define name="titre">Ajouter une astreinte</ui:define>
+	<ui:define name="contenu">
+
+		<h:form id="astreinteform" class="login-form"
+			enctype="application/x-www-form-urlencoded">
+
+			<table border="0">
+				<tr>
+					<td style="text-align: right;"><h3>Référence :</h3></td>
+					<td align="left"><h:inputText id="ref" class="input username"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+							style="width:200px; height:15px;" p:placeholder="Référence"
+							required="true" value="#{beanCP.astreinte.ref}">
+							<f:validateLength minimum="4" maximum="4" />
+							<f:ajax event="blur" render="refmsg" />
+						</h:inputText></td>
+
+					<td style="text-align: right;"><h3>Sujet :</h3></td>
+					<td align="left"><h:inputText id="sujet" required="true"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+							class="input username" style="width:200px; height:15px;"
+							p:placeholder="Sujet" value="#{beanCP.astreinte.sujet}">
+							<f:ajax event="blur" render="sujmsg" />
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;"><h3>Demandeur :</h3></td>
+					<td align="left"><h:inputText id="demandeur" required="true"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+							class="input username" style="width:200px; height:15px;"
+							p:placeholder="Demandeur" value="#{beanCP.astreinte.demandeur}">
+							<f:ajax event="blur" render="sujmsg" />
+						</h:inputText></td>
+
+					<td style="text-align: right;"><h3>Type :</h3></td>
+					<td align="left"><pf:selectOneMenu id="type" required="true"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+							requiredMessage="Séléctionnez une valeur"
+							value="#{beanCP.astreinte.type}"
+							style="width:230px; font-size:15px;
+                                                                	 height:25px; background-color:#FFFFFF; text-align:center;">
+							<f:selectItem itemLabel="Type de l'astreinte" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems
+								value="#{mbean['select new javax.faces.model.SelectItem(e.keyp,e.stringValue) from TypeAstreinte e']}" />
+						</pf:selectOneMenu></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;"><h3><h:outputText rendered="#{beanCP.astreinte.id != null}" value="Etat :" /></h3></td>
+					<td align="left">
+					<pf:outputLabel value="#{beanCP.astreinte.etatAstreinte.keyp}" />
+					
+					<!-- <pf:selectOneMenu id="etat" editable="false"
+							disabled="#{beanCP.astreinte.id==null or !mbean.areAnyGranted( 'ROLE_CP')}"
+							value="#{beanCP.astreinte.etatAstreinte.id}" required="true"
+							requiredMessage="Séléctionnez une valeur"
+							style="width:230px; font-size:15px;
+                                                                     height:25px; background-color:#FFFFFF; text-align:center;">
+							<f:selectItem itemLabel="Etat de l'astreinte" itemValue="#{null}"
+								noSelectionOption="true" />
+							<f:selectItems value="#{mbean['from EtatAstreinte']}" var="equi"
+								itemValue="#{equi.id}" itemLabel="#{equi.keyp}" />
+							<f:ajax event="blur" render="etatmsg" />
+						</pf:selectOneMenu> -->
+						
+						</td>
+
+					<td style="text-align: right;"><h3>Entité :</h3></td>
+					<td align="left"><pf:selectOneMenu id="entite"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}" required="true"
+							requiredMessage="Séléctionnez une valeur"
+							value="#{beanCP.astreinte.entite}"
+							style="width:230px; font-size:15px;
+                                                                	 height:25px; background-color:#FFFFFF; text-align:center;">
+							<f:selectItem itemLabel="Domaine/Entité" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems
+								value="#{mbean['select new javax.faces.model.SelectItem(e.keyp,e.stringValue) from Entite e']}" />
+							<f:ajax event="blur" render="entmsg" />
+						</pf:selectOneMenu></td>
+				</tr>
+
+				<tr>
+					<td style="text-align: right;"><h3>Début:</h3></td>
+					<td align="left"><pf:calendar id="datedebut" size="30"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}" required="true"
+							p:placeholder="Date de début" value="#{beanCP.astreinte.dateD}"
+							pattern="dd/MM/yyyy HH:mm">
+							<pf:ajax event="dateSelect" update="datefin" />
+						</pf:calendar></td>
+
+					<td style="text-align: right;"><h3>Fin :</h3></td>
+					<td align="left"><pf:calendar id="datefin" size="30"
+							disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}" required="true"
+							p:placeholder="Date de fin" value="#{beanCP.astreinte.dateF}"
+							pattern="dd/MM/yyyy HH:mm" mindate="#{beanCP.astreinte.dateD}">
+							<!-- <f:ajax event="blur" render="dated" /> -->
+						</pf:calendar></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;"><pf:commandButton disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+							value="Affectation" type="button" onclick="PF('dlg2').show();" /></td>
+					<td colspan="3" style="text-align: left;">
+						<pf:panel widgetVar="PRESW" id="pres">
+								<ui:repeat value="#{beanCP.selectedRess}" var="car">
+									<span> #{car}</span>
+									<br />
+
+								</ui:repeat>
+								
+							</pf:panel>
+					
+						<pf:dialog header="Modal Dialog" widgetVar="dlg2" modal="true"
+							height="60%" width="70%">
+							<pf:selectManyCheckbox
+								disabled="#{!mbean.areAnyGranted( 'ROLE_CP') or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}" layout="grid"
+								columns="4" id="ress" style="width:230px; font-size:15px;"
+								value="#{beanCP.selectedRess}" label="Ressources"
+								panelStyle="width:230px" required="true"
+								requiredMessage="Séléctionnez des ressources">
+								<f:selectItems value="#{mbean['select email from Utilisateur']}" />
+								<pf:ajax update="pres" />
+							</pf:selectManyCheckbox>
+							<pf:commandButton value="Fermer" type="button" onclick="PF('dlg2').hide()" />
+							
+						</pf:dialog>
+					
+					
+					</td>
+				</tr>
+
+			 
+				<tr>
+					<td style="text-align: right;">
+						<h3><h:outputText rendered="#{beanCP.astreinte.id != null}" value="Motif :" /></h3>
+					</td>
+					<td colspan="3" style="text-align: left;"><pf:inputTextarea rendered="#{beanCP.astreinte.id != null}" 
+							disabled="#{beanCP.astreinte.id==0 or  !beanCP.astreinte.etatAstreinte.keyp == 'A Valider' or beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+							value="#{beanCP.astreinte.motif}" cols="70" rows="6" /></td>
+				</tr>
+
+
+
+			</table>
+			<br />
+			<pf:dataTable value="#{beanCP.astreinte.interventions}" scrollable="true" scrollHeight="250" rendered="#{beanCP.astreinte.id!=null}"
+							var="interv" id="dtlist"
+							emptyMessage="Aucune intervention trouvée">
+							<f:facet name="header">
+									           Liste des interventions
+									        </f:facet>
+							<pf:column headerText="Ressource" width="200">
+								<span>#{interv.utilisateur.nom}
+									#{interv.utilisateur.prenom}</span>
+							</pf:column>
+							<pf:column headerText="Type" width="160">
+								<span> 
+									#{interv.typeIntervention.stringValue} /
+									#{interv.typeIntervention.doubleValue}</span>
+							</pf:column>
+							<pf:column headerText="Date de début" width="140">
+								<h:outputText id="intd" value="#{interv.dateD}"
+									style="color:#000000;">
+									<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+								</h:outputText>
+							</pf:column>
+							<pf:column headerText="Date de fin" width="140">
+								<h:outputText id="intf" value="#{interv.dateF}"
+									style="color:#000000;">
+									<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+								</h:outputText>
+							</pf:column>
+							<pf:column headerText="Durée" width="50">
+								<span><h:outputText value="#{interv.duration}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText></span>
+							</pf:column>
+							<pf:column headerText="Charge" width="50">
+								<span> <h:outputText value="#{interv.charge}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputText>
+								</span>
+							</pf:column>
+
+							<pf:column headerText="Etat">
+								<span>#{interv.etatAstreinte.keyp}</span>
+
+							</pf:column>
+
+
+
+
+							<f:facet name="footer" style="background-color:#FFFFFF;">
+							
+							Durée total : <h:outputText value="#{beanCP.astreinte.duration}">
+									<f:convertNumber pattern="#0.00" />
+								</h:outputText> H 
+        Chiffrage total : <h:outputText
+									value="#{beanCP.astreinte.charge}">
+									<f:convertNumber pattern="#0.00" />
+								</h:outputText> JH 
+        </f:facet>
+
+
+						</pf:dataTable>
+			
+			<br />
+			<div class="footer">
+				<pf:commandButton value="Enregistrer" disabled="#{beanCP.astreinte.etatAstreinte.id == EtatAstreinte.ID_TERMINEE}"
+					rendered="#{mbean.areAnyGranted( 'ROLE_CP')}"
+					action="#{beanCP.addAstreinte()}" ajax="false" />
+
+				<pf:commandButton
+					rendered="#{mbean.areAnyGranted('ROLE_CP') and ( beanCP.astreinte.etatAstreinte.keyp == 'En cours' or  beanCP.astreinte.etatAstreinte.keyp == 'Rejetée') and bean.utilisateur.id == beanCP.astreinte.cp.id}"
+					action="#{beanCP.validerAsteinte(beanCP.astreinte.id,5,'home')}"
+					ajax="false" value="#{EtatAstreinte.A_VALIDER}" icon="ui-icon-disk" />
+				<pf:commandButton rendered="#{mbean.areAnyGranted('ROLE_ADMIN') and beanCP.astreinte.id!=null }"
+					action="#{beanCP.validerAsteinte(beanCP.astreinte.id,1,'home')}"
+					ajax="false" value="#{EtatAstreinte.EN_COURS}" icon="ui-icon-disk"  />
+
+				<pf:commandButton
+					rendered="#{mbean.areAnyGranted( 'ROLE_DM') and beanCP.astreinte.etatAstreinte.keyp == 'A Valider'}"
+					action="#{beanCP.validerAsteinte(beanCP.astreinte.id,2,'home')}"
+					ajax="false" value="#{EtatAstreinte.VALIDEE}" icon="ui-icon-disk" />
+				<pf:commandButton
+					action="#{beanCP.validerAsteinte(beanCP.astreinte.id,3,'home')}"
+					rendered="#{mbean.areAnyGranted( 'ROLE_DM') and beanCP.astreinte.etatAstreinte.keyp == 'A Valider'}"
+					ajax="false" value="#{EtatAstreinte.REJETEE}" icon="ui-icon-disk" />
+				<pf:commandButton
+					action="#{beanCP.validerAsteinte(beanCP.astreinte.id,4,'home')}"
+					rendered="#{mbean.areAnyGranted('ROLE_DIR') and beanCP.astreinte.etatAstreinte.keyp == 'Validée'}"
+					ajax="false" value="#{EtatAstreinte.TERMINEE}" icon="ui-icon-disk" />
+					<pf:commandButton
+					action="#{beanCP.initNewAstreinte('index')}"  immediate="true"
+					ajax="false" value="Sortir" icon="ui-icon-cancel" />
+			</div>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
