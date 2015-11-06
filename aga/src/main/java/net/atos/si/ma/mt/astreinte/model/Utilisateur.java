@@ -56,6 +56,8 @@ public class Utilisateur implements UserDetails {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Collection<Role> roles;
 
+	private String theme;
+	
 	public int getId() {
 		return this.id;
 	}
@@ -172,6 +174,16 @@ public class Utilisateur implements UserDetails {
 
 	public void setEquipe(Equipe equipe) {
 		this.equipe = equipe;
+	}
+	
+	
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 
 	@Override

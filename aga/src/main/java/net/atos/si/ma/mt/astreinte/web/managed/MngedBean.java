@@ -50,6 +50,7 @@ public class MngedBean implements Serializable {
 		return applicationContext.getBeanDefinitionNames();
 
 	}
+
 	@Value("${default-theme}")
 	private String theme;
 
@@ -61,9 +62,10 @@ public class MngedBean implements Serializable {
 		this.theme = theme;
 	}
 
+
 	private Boolean updatePassword = true;
 
-	private Utilisateur utilisateur = new Utilisateur();
+	private Utilisateur utilisateur =null;
 
 	private Utilisateur aUtilisateur;
 
@@ -80,6 +82,8 @@ public class MngedBean implements Serializable {
 				.getPrincipal();
 		if (object instanceof Utilisateur) {
 			Utilisateur ut = (Utilisateur) object;
+			if(ut.getTheme()!=null && !ut.getTheme().trim().equals(""))
+			this.theme=ut.getTheme();
 			return ut;
 		}
 		return null;
@@ -104,8 +108,6 @@ public class MngedBean implements Serializable {
 			setaUtilisateur(new Utilisateur());
 		return "passwordupdate";
 	}
-
-	
 
 	public String login() throws ValidationException {
 		try {

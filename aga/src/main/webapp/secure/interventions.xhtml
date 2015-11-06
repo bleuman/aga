@@ -7,7 +7,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	template="/resources/template.xhtml">
+	template="main-template.xhtml">
 	<ui:define name="titre">Mes Interventions
 
 	</ui:define>
@@ -17,7 +17,8 @@
 
 		<h:form id="finter">
 
-			<pf:dataTable var="intervention" id="datas" scrollable="true" scrollHeight="350"
+			<pf:dataTable var="intervention" id="datas" scrollable="true"
+				scrollHeight="350"
 				value="#{beanR.loadIntervention( bean.utilisateur.id)}">
 				<f:facet name="header">
 					<ui:param name="query"
@@ -37,80 +38,203 @@
 
 					</pf:selectOneMenu>
 				</f:facet>
+				<pf:columnGroup type="header">
+					<pf:row>
 
-				<pf:column headerText="Id" width="25">
-			 
-#{intervention.id}
+						<pf:column headerText="ID" width="25" />
+						<pf:column headerText="Ref" width="40" />
+						<pf:column headerText="Début" width="100" />
+						<pf:column headerText="Fin" width="100" />
+						<pf:column headerText="Type" width="90" />
+						<pf:column headerText="Ressource" width="150" />
+						<pf:column headerText="Etat" width="50" />
+						<pf:column colspan="6" headerText="Actions" />
+
+
+					</pf:row>
+
+				</pf:columnGroup>
+
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id}" />
+				</pf:column>
+				<pf:column>
+
+
+
+					<pf:lightBox id="lighbox2">
+						<h:outputLink value="#">
+							<div align="center">
+
+
+								<pf:outputLabel value="#{intervention.astreinte.ref}" />
+
+							</div>
+						</h:outputLink>
+
+						<f:facet name="inline">
+							<pf:fieldset>
+								<pf:panelGrid rendered="#{intervention.astreinte.id!=null}">
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Le type de la DI" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="typea"
+												value="#{intervention.astreinte.type}"
+												style="color:#000000; text-align:center;" />
+
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Le sujet de la DI" />
+
+										</pf:column>
+										<pf:column>
+											<h:outputText id="sujeta"
+												value="#{intervention.astreinte.ref} : #{intervention.astreinte.sujet}"
+												style="color:#000000;" />
+										</pf:column>
+
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Demandeur" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="demandeur"
+												value="#{intervention.astreinte.demandeur}"
+												style="color:#000000;" />
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Ressources" />
+										</pf:column>
+										<pf:column>
+											<ui:repeat
+												value="#{mbean.toStringArray(intervention.astreinte.ressources,'~')}"
+												var="car">
+
+
+												<span> #{car}</span>
+												<br />
+
+											</ui:repeat>
+										</pf:column>
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Date de début" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="dtda"
+												value="#{intervention.astreinte.dateD}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Date de fin" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="dtfa"
+												value="#{intervention.astreinte.dateF}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Etat" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="detat"
+												value="#{intervention.astreinte.etatAstreinte.keyp}"
+												style="color:#000000;" />
+											
+										</pf:column>
+										<pf:column styleClass="ui-widget-header"><h:outputLabel value="CP" /></pf:column>
+										<pf:column>
+											<h:outputText id="cpid"
+												value="#{intervention.astreinte.cp.nom}  #{intervention.astreinte.cp.prenom }"
+												style="color:#000000;" />
+										</pf:column>
+									</pf:row>
+
+								</pf:panelGrid>
+							</pf:fieldset>
+						</f:facet>
+					</pf:lightBox>
+
+
 
 
 				</pf:column>
-				<pf:column headerText="Ref" width="40">
-					<pf:outputLabel value="#{intervention.astreinte.ref}" />
 
-
-
-				</pf:column>
-
-				<pf:column headerText="dateD">
+				<pf:column>
 					<h:outputText value="#{intervention.dateD}">
-						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
 					</h:outputText>
 
 				</pf:column>
-				<pf:column headerText="dateF">
+				<pf:column>
 
 					<h:outputText value="#{intervention.dateF}">
-						<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
 					</h:outputText>
 
 				</pf:column>
-				<pf:column headerText="Type Intervention">
+				<pf:column>
 
-					 #{intervention.typeIntervention.keyp}-#{intervention.typeIntervention.stringValue}
-
-				</pf:column>
-				<pf:column headerText="Ressource">
-
-					 #{intervention.utilisateur.prenom}
-					 #{intervention.utilisateur.nom}
+					<pf:outputLabel
+						value="#{intervention.typeIntervention.keyp}-#{intervention.typeIntervention.stringValue}" />
 
 				</pf:column>
+				<pf:column>
+
+					<pf:outputLabel value="#{intervention.utilisateur.prenom} " />
+					<pf:outputLabel value="#{intervention.utilisateur.nom}" />
+
+				</pf:column>
 
 
-				<pf:column headerText="Etat">
+				<pf:column headerText="Etat" width="90">
 					<div align="center">
-						<p>
-							<pf:graphicImage id="img1" value="/resources/icons/play.png"
-								width="40%"
-								rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.EN_COURS}">
-								<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
-									for="img1" />
 
-							</pf:graphicImage>
-							<pf:graphicImage id="img2" value="/resources/icons/checkmark.png"
-								width="40%"
-								rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.VALIDEE}">
-								<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
-									for="img2" />
+						<pf:graphicImage id="img1" value="../resources/icons/play.png"
+							width="35%"
+							rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.EN_COURS}">
+							<pf:tooltip value="#{intervention.etatAstreinte.keyp}" for="img1" />
 
-							</pf:graphicImage>
+						</pf:graphicImage>
+						<pf:graphicImage id="img2"
+							value="../resources/icons/checkmark.png" width="35%"
+							rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.VALIDEE}">
+							<pf:tooltip value="#{intervention.etatAstreinte.keyp}" for="img2" />
 
-							<pf:graphicImage id="img3" value="/resources/icons/paste.png"
-								width="40%"
-								rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.A_VALIDER}">
-								<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
-									for="img3" />
+						</pf:graphicImage>
 
-							</pf:graphicImage>
+						<pf:graphicImage id="img3" value="../resources/icons/paste.png"
+							width="35%"
+							rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.A_VALIDER}">
+							<pf:tooltip value="#{intervention.etatAstreinte.keyp}" for="img3" />
+
+						</pf:graphicImage>
+
+						<pf:graphicImage id="img31" value="../resources/icons/cross.png"
+							width="35%"
+							rendered="#{intervention.etatAstreinte.keyp==EtatAstreinte.REJETEE}">
+							<pf:tooltip value="#{intervention.etatAstreinte.keyp}"
+								for="img31" />
+
+						</pf:graphicImage>
 
 
-						</p>
 						<p>
 							<pf:outputLabel value="#{intervention.etatAstreinte.keyp}" />
 						</p>
 					</div>
 				</pf:column>
-				<pf:column width="30">
+				<pf:column>
 					<div align="center" style="babackground-color: red">
 
 
@@ -131,7 +255,7 @@
 					</div>
 				</pf:column>
 
-				<pf:column width="30" rendered="#{mbean.areAnyGranted( 'ROLE_CP') }">
+				<pf:column>
 					<div align="center">
 
 						<pf:commandLink rendered="#{mbean.areAnyGranted( 'ROLE_CP') }"
@@ -148,7 +272,7 @@
 						</pf:commandLink>
 					</div>
 				</pf:column>
-				<pf:column width="30">
+				<pf:column>
 					<div align="center">
 						<pf:commandLink
 							rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }"
@@ -156,7 +280,7 @@
 							ajax="true" update="datas">
 							<div class="grow pic">
 								<pf:graphicImage id="img6"
-									value="/resources/icons/checkmark.png" width="40%"
+									value="/resources/icons/checkmark.png" width="35%"
 									rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }">
 									<pf:tooltip value="#{EtatAstreinte.VALIDEE}" for="img6" />
 
@@ -167,7 +291,7 @@
 						</pf:commandLink>
 					</div>
 				</pf:column>
-				<pf:column width="30">
+				<pf:column>
 					<div align="center">
 						<pf:commandLink
 							rendered="#{EtatAstreinte.A_VALIDER == intervention.etatAstreinte.keyp and mbean.areAnyGranted( 'ROLE_CP') }"
@@ -180,7 +304,7 @@
 
 								</pf:graphicImage>
 							</div>
-							<p>Rejeter§§</p>
+							<p>Rejeter</p>
 						</pf:commandLink>
 
 					</div>
@@ -188,12 +312,14 @@
 
 
 				</pf:column>
-				<pf:column width="30">
+
+				<pf:column>
 
 					<div align="center">
 						<pf:commandLink
 							rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}"
-							action="#{beanR.editIntervention(intervention)}" ajax="false" update="datas">
+							action="#{beanR.editIntervention(intervention)}" ajax="false"
+							update="datas">
 							<div class="grow pic">
 								<pf:graphicImage id="img8" value="/resources/icons/pencil.png"
 									rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}">
@@ -209,12 +335,13 @@
 
 
 				</pf:column>
-				<pf:column width="30">
+				<pf:column>
 
 					<div align="center">
 						<pf:commandLink
 							rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}"
-							action="#{beanR.removeIntervention(intervention)}" ajax="true" update="datas">
+							action="#{beanR.removeIntervention(intervention)}" ajax="true"
+							update="datas">
 							<div class="grow pic">
 								<pf:graphicImage id="img9" value="/resources/icons/delete.png"
 									rendered="#{EtatAstreinte.EN_COURS == intervention.etatAstreinte.keyp or mbean.areAnyGranted( 'ROLE_ADMIN')}">
@@ -230,46 +357,44 @@
 
 
 
-
-
 				</pf:column>
 			</pf:dataTable>
 			<br />
 			<br />
-		
+
 			<pf:commandButton value="Ajouter une intervention"
 				action="intervention" ajax="false" icon="ui-icon-pencil" />
-			
+
 			<pf:commandButton value="Télécharger" ajax="false"
-							onclick="PrimeFaces.monitorDownload(start, stop);"
-							icon="ui-icon-arrowthick-1-s">
-							<pf:fileDownload value="#{beanR.excelRessource(beanR.astreinte.id,bean.utilisateur.id)}" />
-						</pf:commandButton>
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="ui-icon-arrowthick-1-s">
+				<pf:fileDownload
+					value="#{beanR.excelRessource(beanR.astreinte.id,bean.utilisateur.id)}" />
+			</pf:commandButton>
 
-						<pf:dialog modal="true" widgetVar="statusDialog" header="Status"
-							draggable="false" closable="false" resizable="false">
-							<pf:graphicImage style="top:100;" width="100"
-								value="/resources/images/loading.gif" />
-						</pf:dialog>
-						<pf:notificationBar position="bottom" effect="slide"
-							widgetVar="bar">
-							<div class="ui-grid ui-grid-responsive">
-								<div class="ui-grid-row">
+			<pf:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false" resizable="false">
+				<pf:graphicImage style="top:100;" width="100"
+					value="/resources/images/loading.gif" />
+			</pf:dialog>
+			<pf:notificationBar position="bottom" effect="slide" widgetVar="bar">
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
 
-									<h:outputText
-										value="Veuillez executeur Ctrl Alt Shit F9 pour raffrachir les formules sur Excel"
-										style="font-size:36px;" />
-								</div>
-								<div class="ui-grid-row">
-									<pf:commandButton value="Hide" onclick="PF('bar').hide()"
-										type="button" icon="ui-icon-arrow-1-n" />
-								</div>
-							</div>
-
+						<h:outputText
+							value="Veuillez executeur Ctrl Alt Shit F9 pour raffrachir les formules sur Excel"
+							style="font-size:36px;" />
+					</div>
+					<div class="ui-grid-row">
+						<pf:commandButton value="Hide" onclick="PF('bar').hide()"
+							type="button" icon="ui-icon-arrow-1-n" />
+					</div>
+				</div>
 
 
-						</pf:notificationBar>
-						<script type="text/javascript">
+
+			</pf:notificationBar>
+			<script type="text/javascript">
 function start() {
     PF('statusDialog').show();
 }

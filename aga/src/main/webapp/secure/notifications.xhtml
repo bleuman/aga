@@ -4,14 +4,15 @@
 	xmlns:pf="http://primefaces.org/ui"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/resources/template.xhtml">
+	template="main-template.xhtml">
 	<ui:define name="titre">Notifications</ui:define>
 	<ui:define name="contenu">
 		<h:form id="flistr">
-			<!-- <pf:poll interval="10" update="nottable" /> -->
+			<!-- <pf:poll interval="10" update="nottable" />  -->
+			
 			<pf:dataTable id="nottable" var="notif"
 				value="#{mbean['from Notification']}" scrollable="true"
-				scrollHeight="250">
+				scrollHeight="380">
 
 
 
@@ -25,12 +26,14 @@
 					<f:facet name="header">
 						<h:outputLabel value="Astreinte"></h:outputLabel>
 					</f:facet>
-						 			<pf:commandLink action="#{beanCP.updateAstreinte(notif.astreinte!=null ? notif.astreinte:notif.intervention.astreinte )}"
-					ajax="false">
-					<pf:outputLabel value="#{notif.astreinte!=null ? notif.astreinte.ref:notif.intervention.astreinte.ref}	[	#{notif.astreinte!=null ? notif.astreinte.etatAstreinte.keyp:notif.intervention.astreinte.etatAstreinte.keyp}]"></pf:outputLabel>
-					
-				</pf:commandLink>
-						 </pf:column>
+					<pf:commandLink
+						action="#{beanCP.updateAstreinte(notif.astreinte!=null ? notif.astreinte:notif.intervention.astreinte )}"
+						ajax="false">
+						<pf:outputLabel
+							value="#{notif.astreinte!=null ? notif.astreinte.ref:notif.intervention.astreinte.ref}	[	#{notif.astreinte!=null ? notif.astreinte.etatAstreinte.keyp:notif.intervention.astreinte.etatAstreinte.keyp}]"></pf:outputLabel>
+
+					</pf:commandLink>
+				</pf:column>
 				<pf:column width="40">
 					<f:facet name="header">
 						<h:outputLabel value="Intervention"></h:outputLabel>

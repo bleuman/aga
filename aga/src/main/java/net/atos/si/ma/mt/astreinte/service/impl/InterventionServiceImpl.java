@@ -94,18 +94,16 @@ public class InterventionServiceImpl extends
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(intervention.getDateD());
 			int j = calendar.get(Calendar.DAY_OF_WEEK);
-			/*if (j == Calendar.SUNDAY
-					&& !typeIntervention.getStringValue().equals(
+			if (j != Calendar.SUNDAY
+					&& typeIntervention.getKeyp().equals(
 							TypeIntervention.DIMANCHE))
 				throw new ValidationException(
-						"Type Intervention doit correspondre à un Dimanche");
-			if (j == Calendar.SATURDAY
-					&& !typeIntervention.getStringValue().equals(
-							TypeIntervention.SAMEDI)
-					&& !typeIntervention.getStringValue().equals(
-							TypeIntervention.TELEPHONE))
+						"Le jour doit correspondre à un Dimanche");
+			if (j != Calendar.SATURDAY
+					&& typeIntervention.getKeyp().equals(
+							TypeIntervention.SAMEDI))
 				throw new ValidationException(
-						"Type Intervention doit correspondre à un Samedi");*/
+						"Le jour doit correspondre à un Samedi");
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -116,8 +114,10 @@ public class InterventionServiceImpl extends
 
 	@Override
 	public List<Intervention> checkChevauchement(Integer idRessource,
-			Date dateD, Date dateF, Long idAstreinte,Long idIntervention) {
-		String hquery = "from Intervention where id<>"+idIntervention+" and  astreinte.id<>"
+			Date dateD, Date dateF, Long idAstreinte, Long idIntervention) {
+		String hquery = "from Intervention where id<>"
+				+ idIntervention
+				+ " and  astreinte.id<>"
 				+ idAstreinte
 				+ " and	utilisateur.id=:ressourceid  and 	( dateD BETWEEN :hdebut and :hfin or  dateF BETWEEN :hdebut and :hfin  or  :hdebut BETWEEN dateD and dateF or  :hfin BETWEEN dateD and dateF ) order by dateD";
 		return getDao().listByCriteres(

@@ -7,8 +7,8 @@
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	template="/resources/template.xhtml">
-	<ui:define name="titre">Mes Interventions
+	template="main-template.xhtml">
+	<ui:define name="titre">Interventions
 
 	</ui:define>
 	<ui:define name="contenu">
@@ -39,7 +39,109 @@
 
 				</pf:column>
 				<pf:column headerText="Ref" width="40">
-					<pf:outputLabel value="#{intervention.astreinte.ref}" />
+						<pf:lightBox id="lighbox2">
+						<h:outputLink value="#">
+							<div align="center">
+
+
+								<pf:outputLabel value="#{intervention.astreinte.ref}" />
+
+							</div>
+						</h:outputLink>
+
+						<f:facet name="inline">
+							<pf:fieldset>
+								<pf:panelGrid rendered="#{intervention.astreinte.id!=null}">
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Le type de la DI" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="typea"
+												value="#{intervention.astreinte.type}"
+												style="color:#000000; text-align:center;" />
+
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Le sujet de la DI" />
+
+										</pf:column>
+										<pf:column>
+											<h:outputText id="sujeta"
+												value="#{intervention.astreinte.ref} : #{intervention.astreinte.sujet}"
+												style="color:#000000;" />
+										</pf:column>
+
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Demandeur" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="demandeur"
+												value="#{intervention.astreinte.demandeur}"
+												style="color:#000000;" />
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Ressources" />
+										</pf:column>
+										<pf:column>
+											<ui:repeat
+												value="#{mbean.toStringArray(intervention.astreinte.ressources,'~')}"
+												var="car">
+
+
+												<span> #{car}</span>
+												<br />
+
+											</ui:repeat>
+										</pf:column>
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Date de début" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="dtda"
+												value="#{intervention.astreinte.dateD}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Date de fin" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="dtfa"
+												value="#{intervention.astreinte.dateF}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Etat" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="detat"
+												value="#{intervention.astreinte.etatAstreinte.keyp}"
+												style="color:#000000;" />
+											
+										</pf:column>
+										<pf:column styleClass="ui-widget-header"><h:outputLabel value="CP" /></pf:column>
+										<pf:column>
+											<h:outputText id="cpid"
+												value="#{intervention.astreinte.cp.nom}  #{intervention.astreinte.cp.prenom }"
+												style="color:#000000;" />
+										</pf:column>
+									</pf:row>
+
+								</pf:panelGrid>
+							</pf:fieldset>
+						</f:facet>
+					</pf:lightBox>
+
 
 
 
