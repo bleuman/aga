@@ -87,7 +87,7 @@ public class InterventionServiceImpl extends
 
 			// jour ferier
 			if (jf != null
-					&& !typeIntervention.getStringValue().equals(
+					&& !typeIntervention.getKeyp().equals(
 							TypeIntervention.JOUR_FERIE))
 				throw new ValidationException(
 						"Type Intervention doit correspondre à un jour férier");

@@ -18,14 +18,14 @@
 		<h:form id="finter">
 
 			<pf:dataTable var="intervention" id="datas" scrollable="true"
-				scrollHeight="350"
+				scrollHeight="250"
 				value="#{beanR.loadIntervention( bean.utilisateur.id)}">
 				<f:facet name="header">
 					<ui:param name="query"
 						value="select distinct new javax.faces.model.SelectItem(i.astreinte.id ,i.astreinte.ref ||\' - \' ||i.astreinte.etatAstreinte.keyp) from Intervention i  where i.utilisateur.id=${bean.utilisateur.id}" />
 					<pf:outputLabel value="Choisir la  DI " />
 					<pf:selectOneMenu id="ref" value="#{beanR.astreinte.id}">
-						<f:selectItem itemLabel="Tout" itemValue="#{null}" />
+						<f:selectItem itemLabel="" itemValue="#{null}" />
 						<f:selectItems value="#{mbean[query]}" />
 						<c:if test="#{mbean.areAnyGranted( 'ROLE_ADMIN')}">
 							<f:param name="paraminterv" value="${null}" />
@@ -34,7 +34,7 @@
 						<c:if test="#{!mbean.areAnyGranted( 'ROLE_ADMIN')}">
 							<f:param name="paraminterv" value="${bean.utilisateur.id}" />
 						</c:if>
-						<pf:ajax event="change" update="finter:datas" />
+						<pf:ajax event="change" update="finter:datas,finter:datastt" />
 
 					</pf:selectOneMenu>
 				</f:facet>
@@ -138,7 +138,7 @@
 											<h:outputText id="dtfa"
 												value="#{intervention.astreinte.dateF}"
 												style="color:#000000;">
-												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+												<f:convertDateTime pattern="HH:mm" />
 											</h:outputText>
 										</pf:column>
 									</pf:row>
@@ -359,20 +359,84 @@
 
 				</pf:column>
 			</pf:dataTable>
-			<br />
-			<br />
+			
+			
+			
+			<pf:dataTable var="intervention" id="datastt" scrollable="true" rendered="#{bean.utilisateur.equipe.keyp == 'STT'}"
+				scrollHeight="180"
+				value="#{beanR.loadInterventionSTT( bean.utilisateur.id)}">
+				 
+				<pf:columnGroup type="header">
+					<pf:row>
+
+
+						 
+
+						<pf:column headerText="Jour" width="25" />
+					 
+						 
+						
+
+						<pf:column headerText="Type Intervention" width="20" />
+						<pf:column headerText="Début" width="25" />
+						<pf:column headerText="Fin" width="25" />
+						<pf:column headerText="Durée" width="25" />
+						 <pf:column headerText="Coefficient" width="15" />
+						<pf:column headerText="Charge" width="25" />
+
+
+					</pf:row>
+
+				</pf:columnGroup>
+	 
+
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id.ji}"  ><f:convertDateTime pattern="dd/MM/yyyy" /></pf:outputLabel>
+				</pf:column>
+				 
+				 
+				
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id.typelib}" />
+				</pf:column>
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id.sintd}"  ><f:convertDateTime pattern="HH:mm" /></pf:outputLabel>
+				</pf:column>
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id.sintf}" ><f:convertDateTime pattern="HH:mm" /></pf:outputLabel>
+				</pf:column>
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id.dureesi}">
+						<f:convertDateTime pattern="HH:mm" />
+					</pf:outputLabel>
+				</pf:column>
+				 <pf:column>
+					<pf:outputLabel value="#{intervention.id.rate}" />
+				</pf:column>
+				 
+				<pf:column>
+					<pf:outputLabel value="#{intervention.id.chargesi}" />
+				</pf:column>
+
+			</pf:dataTable>
 
 			<pf:commandButton value="Ajouter une intervention"
 				action="intervention" ajax="false" icon="ui-icon-pencil" />
 
-			<pf:commandButton value="Télécharger" ajax="false"
+			<pf:commandButton value="Télécharger" ajax="false"  rendered="#{bean.utilisateur.equipe.keyp != 'STT'}"
 				onclick="PrimeFaces.monitorDownload(start, stop);"
 				icon="ui-icon-arrowthick-1-s">
 				<pf:fileDownload
 					value="#{beanR.excelRessource(beanR.astreinte.id,bean.utilisateur.id)}" />
 			</pf:commandButton>
+			<pf:commandButton value="Télécharger" ajax="false" rendered="#{bean.utilisateur.equipe.keyp == 'STT'}"
+				onclick="PrimeFaces.monitorDownload(start, stop);"
+				icon="ui-icon-arrowthick-1-s">
+				<pf:fileDownload
+					value="#{beanR.excelRessourceSTT(beanR.astreinte.id,bean.utilisateur.id)}" />
+			</pf:commandButton>
 
-			<pf:dialog modal="true" widgetVar="statusDialog" header="Status"
+			<pf:dialog modal="true" widgetVar="statusDialog"
 				draggable="false" closable="false" resizable="false">
 				<pf:graphicImage style="top:100;" width="100"
 					value="/resources/images/loading.gif" />

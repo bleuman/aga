@@ -30,7 +30,7 @@ import org.joda.time.Minutes;
  *
  */
 @Entity
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="aga")
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="aga")
 public class Intervention implements java.io.Serializable {
 
 	/**

@@ -291,6 +291,9 @@ public class CPManagedBean implements Serializable {
 	public void initUpadteParameter(Parameter param) {
 		this.parameter = param;
 	}
+	public void initNewParameter() {
+		this.parameter = new Parameter();
+	}
 
 	public void updateParameter(Parameter param) {
 		parameterDAO.save(param);

@@ -13,6 +13,7 @@ public interface ExcelService extends Serializable {
 	static final String FILE_PATH = "/ASTREINTE.xlsx";
 	// static final String FILE_PATH_TMP = "Astreinte.temp.xlsx";
 	static final String FILE_PATH_R = "/ASTREINTE-RES.xlsx";
+	static final String FILE_PATH_R_STT = "/ASTREINTE-RES-STT.xlsx";
 	// static final String FILE_PATH_R_TMP = "ASTREINTE-RES.temp.xlsx";
 	static final int QCREFROW = 5;
 	static final int QCREFRCOL = 4;
@@ -29,5 +30,7 @@ public interface ExcelService extends Serializable {
 
 	StreamedContent  generateExcelAstrinte(Astreinte astreinte) throws Exception;
 	StreamedContent  generateExcelForRessource(List<Intervention> interventions) throws Exception ;
+	StreamedContent  generateExcelForRessourceSTT(Long idAstreinte,
+	Integer idUser) throws Exception ;
 
 }

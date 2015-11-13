@@ -15,7 +15,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "aga")
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "aga")
 public class Notification implements Serializable {
 
 	/**

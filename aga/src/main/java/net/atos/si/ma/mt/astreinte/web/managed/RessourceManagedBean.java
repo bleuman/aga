@@ -2,7 +2,9 @@ package net.atos.si.ma.mt.astreinte.web.managed;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.el.ELContext;
 import javax.faces.application.FacesMessage;
@@ -183,7 +185,7 @@ implements Serializable {
 			throw new ValidationException("Vous n'êtes pas connectés");
 		interventions = interventionService.checkChevauchement(
 				utilisateur.getId(), astreinte.getDateD(),
-				astreinte.getDateD(), IdAstreinte,intervention.getId());
+				astreinte.getDateD(), IdAstreinte, intervention.getId());
 		if (interventions != null && !interventions.isEmpty())
 			throw new ValidationException("Chevechement de l'intervetion");
 
@@ -232,13 +234,25 @@ implements Serializable {
 
 		}
 
-		else if (idUser != null && !idUser.equals("null"))
-			return interventionService
-					.listByQuery("select  i from Intervention as i where i.utilisateur.id ="
-							+ idUser + " order by i.id");
-		else
-			return interventionService
-					.listByQuery("select  i from Intervention as i order by i.id");
+		return null;
+	}
+
+	public List<Object> loadInterventionSTT(Integer idUser) {
+
+		if (astreinte.getId() != null) {
+
+			if (idUser != null && !idUser.equals("null")) {
+
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("user", idUser);
+				params.put("astreinte", astreinte.getId());
+				return interventionService.executeNamedQuery(
+						"sttintervention-by-user-astreinte", params);
+			}
+
+		}
+		return null;
+ 
 	}
 
 	public void listenerIntervention(AjaxBehaviorEvent event) {
@@ -257,6 +271,16 @@ implements Serializable {
 					.getInterventionsForRessourcesByAstreinte(idRessource,
 							idAstreinte));
 		else
+			return null;
+	}
+
+	public StreamedContent excelRessourceSTT(Long idAstreinte,
+			Integer idRessource) throws Exception {
+
+		if (idAstreinte != null) {
+			return excelService.generateExcelForRessourceSTT(idAstreinte,
+					idRessource);
+		} else
 			return null;
 	}
 

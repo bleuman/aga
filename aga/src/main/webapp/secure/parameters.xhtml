@@ -9,8 +9,8 @@
 	<ui:define name="contenu">
 		<h:form id="flistr">
 
-			<pf:dataTable  var="rule" value="#{mbean['from Parameter']}">
-			 
+			<pf:dataTable var="rule" value="#{mbean['from Parameter']}">
+
 
 				<pf:column headerText="Type Parameter" width="70">
 				
@@ -34,6 +34,25 @@
 					</f:facet>
 						 	#{rule.version}
 						 </pf:column>
+				<pf:column width="60">
+
+					<f:facet name="header">
+						<h:outputLabel value="DateValue"></h:outputLabel>
+					</f:facet>
+
+					<h:outputText value="#{rule.dateValue}">
+						 
+					</h:outputText>
+				</pf:column>
+				<pf:column width="60">
+
+					<f:facet name="header">
+						<h:outputLabel value="TimeValue"></h:outputLabel>
+					</f:facet>
+					<h:outputText value="#{rule.timeValue}">
+						<f:convertDateTime pattern="HH:mm" />
+					</h:outputText>
+				</pf:column>
 				<pf:column width="60">
 					<f:facet name="header">
 						<h:outputLabel value="StringValue" />
@@ -61,11 +80,15 @@
 					</f:facet>
 					<pf:commandLink value="Modifier"
 						action="#{beanCP.initUpadteParameter(rule)}"
-						oncomplete="PF('eventDialog').show();" update="fupdatezone:editzone" />
+						oncomplete="PF('eventDialog').show();"
+						update="fupdatezone:editzone" />
 				</pf:column>
 
 
 			</pf:dataTable>
+			<pf:commandButton value="Creer nouveau parametre"
+				action="#{beanCP.initNewParameter()}"
+				oncomplete="PF('eventDialog').show();" update="fupdatezone:editzone" />
 		</h:form>
 		<h:form id="fupdatezone">
 			<pf:panel id="editzone">
@@ -74,11 +97,24 @@
 					<h:panelGrid id="eventDetails" columns="2">
 						<h:outputLabel value="Key" />
 						<pf:inputText value="#{beanCP.parameter.keyp}" />
+						<h:outputLabel value="Version" />
+						<pf:inputText value="#{beanCP.parameter.version}" />
 						<h:outputLabel for="stringValue" value="StringValue" />
 						<pf:inputText id="stringValue"
 							value="#{beanCP.parameter.stringValue}" />
+						<h:outputLabel for="timeValue" value="TimeValue" />
+						<pf:calendar id="timeValue" size="30"
+							value="#{beanCP.parameter.timeValue}" pattern="HH:mm"
+							timeOnly="true">
+
+						</pf:calendar>
 						<h:outputLabel for="dateValue" value="DateValue" />
-						<pf:inputText id="dateValue" value="#{beanCP.parameter.dateValue}" />
+						<pf:calendar id="dateValue" size="30"
+							value="#{beanCP.parameter.dateValue}" pattern="dd/MM/yyyy HH:mm"
+							 >
+
+						</pf:calendar>
+
 						<h:outputLabel for="longValue" value="LongValue" />
 						<pf:inputText id="longValue" value="#{beanCP.parameter.longValue}" />
 						<h:outputLabel for="doubleValue" value="DoubleValue" />
@@ -89,7 +125,7 @@
 
 						<pf:commandButton id="addButton" value="Sauvegarder"
 							action="#{beanCP.updateParameter(beanCP.parameter)}"
-							oncomplete="PF('eventDialog').hide();" update="flistr"/>
+							oncomplete="PF('eventDialog').hide();" update="flistr" />
 					</h:panelGrid>
 				</pf:dialog>
 			</pf:panel>
