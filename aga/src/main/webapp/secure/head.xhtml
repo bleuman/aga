@@ -1,0 +1,30 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<div align="center"></div>
+	<h:form>
+		<h:panelGrid columns="3" style="align:left">
+
+			<pf:commandLink action="home" ajax="false">
+				<pf:graphicImage value="/resources/images/logoatos.png"
+					style="width: 50%;" />
+			</pf:commandLink>
+			<pf:graphicImage value="/resources/images/app-log.png"
+				style="width: 50%;" />
+			<h:panelGrid columns="4" style="width: 400px"> #{bean.utilisateur.nom} #{bean.utilisateur.prenom}
+				 
+					
+			 
+				<c:forEach var="r" items="#{bean.utilisateur.roles}">
+				<h:outputText value="#{r.keyp}," />
+			</c:forEach>
+			</h:panelGrid>
+		</h:panelGrid>
+
+	</h:form>
+</ui:component>

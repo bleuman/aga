@@ -1,6 +1,7 @@
 package net.atos.si.ma.mt.config.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import net.atos.si.ma.mt.config.dao.GenericDAO;
 import net.atos.si.ma.mt.config.service.GenericService;
@@ -75,6 +76,12 @@ public class GenericServiceImpl<T, DAO extends GenericDAO<T,Long>> implements
 	public T load(Long id) {
 		// TODO Auto-generated method stub
 		return dao.load(id);
+	}
+
+	@Override
+	public List<Object> executeNamedQuery(String query, Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		return dao.executeNamedQuery(query, params);
 	}
 
 }

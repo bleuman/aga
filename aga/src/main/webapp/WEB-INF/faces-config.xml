@@ -15,12 +15,12 @@
          org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
     </el-resolver>
 </application>
-<factory>
+<!-- <factory>
     <exception-handler-factory>
        org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory
     </exception-handler-factory>
-</factory>
-	<!-- <factory>
+</factory> -->
+	  <factory>
 		<exception-handler-factory>net.atos.si.ma.mt.config.web.CustomExceptionHandlerFactory</exception-handler-factory>
-	</factory> -->
+	</factory>   
 </faces-config>

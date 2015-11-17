@@ -55,6 +55,10 @@ implements Serializable {
 	@Autowired
 	@Qualifier("notificationServiceImpl")
 	private NotificationService notificationService;
+	
+	@Autowired
+	@Qualifier("utilisateurDAO")
+	private GenericDAO<Utilisateur, Integer> utilisateurDAO;
 
 	@Autowired
 	@Qualifier("excelServiceImpl")
@@ -82,6 +86,7 @@ implements Serializable {
 		interv.setEtatAstreinte(new EtatAstreinte());
 		interv.getEtatAstreinte().setId(EtatAstreinte.ID_EN_COURS);
 		interv.getEtatAstreinte().setKeyp(EtatAstreinte.EN_COURS);
+		interv.setUtilisateur(new Utilisateur());
 		return interv;
 	}
 
@@ -168,21 +173,32 @@ implements Serializable {
 	}
 
 	public String addinterv() throws Exception {
-		ELContext elContext = FacesContext.getCurrentInstance().getELContext();
-		MngedBean managedBean = (MngedBean) FacesContext.getCurrentInstance()
-				.getApplication().getELResolver()
-				.getValue(elContext, null, "bean");
+		Utilisateur utilisateur =null;
+		
+		
+		if( intervention.getUtilisateur().getId() == 0){
+			ELContext elContext = FacesContext.getCurrentInstance().getELContext();
+			MngedBean managedBean = (MngedBean) FacesContext.getCurrentInstance()
+					.getApplication().getELResolver()
+					.getValue(elContext, null, "bean");
+			 utilisateur = managedBean.getUtilisateur();
+		}
+		else{
+			utilisateur = utilisateurDAO.load(intervention.getUtilisateur().getId());
+		}
+		 intervention.setUtilisateur(utilisateur);
 		if (intervention.getAstreinte() != null
 				&& intervention.getAstreinte().getId() != null)
 			IdAstreinte = intervention.getAstreinte().getId();
+		
+		
 		if (!interventionService.cheakIntervention(intervention,
-				managedBean.getUtilisateur(), IdAstreinte))
+				utilisateur, IdAstreinte))
 			throw new ValidationException("Parametres non valides");
 
 		Astreinte astreinte = astreinteDAO.load(IdAstreinte);
-		Utilisateur utilisateur = managedBean.getUtilisateur();
-		if (utilisateur == null)
-			throw new ValidationException("Vous n'êtes pas connectés");
+
+		 
 		interventions = interventionService.checkChevauchement(
 				utilisateur.getId(), astreinte.getDateD(),
 				astreinte.getDateD(), IdAstreinte, intervention.getId());
@@ -190,17 +206,13 @@ implements Serializable {
 			throw new ValidationException("Chevechement de l'intervetion");
 
 		if (intervention.getId() == null) {
-			Utilisateur utilisateur2 = new Utilisateur();
-			utilisateur2.setId(utilisateur.getId());
 			intervention.setUtilisateur(utilisateur);
 			intervention.setAstreinte(astreinte);
 			// interventionDAO.save(intervention);
 			astreinte.getInterventions().add(intervention);
-			astreinte = astreinteDAO.save(astreinte);
-		} else {
-			intervention = interventionService.save(intervention);
 		}
-
+		
+		astreinte = astreinteDAO.save(astreinte);
 		intervention = initIntervention();
 		return "interventions";
 
@@ -252,7 +264,7 @@ implements Serializable {
 
 		}
 		return null;
- 
+
 	}
 
 	public void listenerIntervention(AjaxBehaviorEvent event) {

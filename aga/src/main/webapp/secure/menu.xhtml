@@ -1,0 +1,110 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pf="http://primefaces.org/ui"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<div align="center"></div>
+	<h:form>
+		
+
+
+		<pf:panelMenu style="width:100%;align:center;">
+
+			<pf:submenu expanded="true" label="Mon Compte">
+				<pf:menuitem value="Modifier compte" ajax="false"
+					action="#{bean.initPasswordupdate(bean.utilisateur)}"
+					icon="ui-icon-user" />
+				<pf:menuitem value="Déconnexion" url="../logout"
+					icon="ui-icon-arrowrefresh-1-w" />
+			</pf:submenu>
+			<c:if test="#{mbean.areAnyGranted( 'ROLE_ADMIN')}">
+				<pf:submenu expanded="true" label="Administration">
+
+
+
+					<pf:menuitem value="Interventions" action="interventions_admin"
+						ajax="false" icon="ui-icon-home">
+
+
+						<f:param name="paraminterv" value="${null}" />
+
+
+
+					</pf:menuitem>
+
+					<pf:menuitem value="Astreintes (Admin)"
+						action="home_admin" ajax="false" icon="ui-icon-home" />
+
+
+					<pf:menuitem value="Notifications" action="notifications"
+						ajax="false" icon="ui-icon-home">
+					</pf:menuitem>
+
+					<pf:menuitem value="Liste des utilisateurs" action="users"
+						ajax="false" icon="ui-icon-check" />
+					<pf:menuitem value="Créer un utilisateur"
+						action="#{bean.initPasswordupdate(null)}" ajax="false"
+						icon="ui-icon-check" />
+					<pf:menuitem value="Règles et coéfficients" action="parameters"
+						ajax="false" icon="ui-icon-check" />
+					<pf:menuitem value="Jours Fériers" action="jf" ajax="false"
+						icon="ui-icon-close" />
+
+				</pf:submenu>
+			</c:if>
+			<c:if test="#{mbean.areAnyGranted( 'ROLE_RES')}">
+				<pf:submenu expanded="true" label="Mes Interventions">
+					<pf:menuitem value="Mes interventions" action="interventions"
+						ajax="false" icon="ui-icon-home">
+
+
+
+
+						<f:param name="paraminterv" value="${bean.utilisateur.id}" />
+
+					</pf:menuitem>
+				 <!-- 
+					<pf:menuitem value="Mes interventions (STT)" action="sttInterventions"
+						ajax="false" icon="ui-icon-home">
+ 
+						<f:param name="paraminterv" value="${bean.utilisateur.id}" />
+
+					</pf:menuitem> -->
+					<pf:menuitem value="Ajouter une intervention" action="#{beanR.initAddIntervention()}"
+						ajax="false" icon="ui-icon-pencil" />
+				</pf:submenu>
+				<pf:separator />
+			</c:if>
+			<c:if
+				test="#{mbean.areAnyGranted( 'ROLE_ADMIN,ROLE_CP,ROLE_DIR,ROLE_DM,ROLE_PMO')}">
+				<pf:submenu expanded="true" label="Gestion des astreintes">
+					<c:if test="#{mbean.areAnyGranted( 'ROLE_CP')}">
+						<pf:menuitem value="Astreintes (CP)" action="home"
+							ajax="false" icon="ui-icon-home" />
+					</c:if>
+					<c:if test="#{mbean.areAnyGranted( 'ROLE_DM')}">
+						<pf:menuitem value="Astreintes (DM)" action="homeDM"
+							ajax="false" icon="ui-icon-home" />
+					</c:if>
+					<c:if test="#{mbean.areAnyGranted( 'ROLE_DIR')}">
+						<pf:menuitem value="Astreintes (DIR)" action="homeDIR"
+							ajax="false" icon="ui-icon-home" />
+					</c:if>
+					<c:if test="#{mbean.areAnyGranted( 'ROLE_CP')}">
+						<pf:menuitem value="Ajouter une astreinte"
+							action="#{beanCP.initNewAstreinte('astreinte')}" ajax="false"
+							icon="ui-icon-pencil" />
+					</c:if>
+					<c:if test="#{mbean.areAnyGranted( 'ROLE_CP,ROLE_DIR,ROLE_DM')}">
+						<pf:menuitem value="Détail astreinte" action="chiffrage"
+							ajax="false" icon="ui-icon-check" />
+					</c:if>
+				</pf:submenu>
+			</c:if>
+
+		</pf:panelMenu>
+	</h:form>
+</ui:component>
