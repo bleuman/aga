@@ -4,6 +4,7 @@
 	xmlns:pf="http://primefaces.org/ui"
 	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="main-template.xhtml">
 	<ui:define name="titre">#{beanR.intervention.id==null ?
 			'Ajouter' : 'Modifier'} une intervention</ui:define>
@@ -24,44 +25,160 @@
 
 			<h:panelGrid columns="4" id="matchGrid" cellpadding="5">
 
-
 				<h:outputText rendered="#{beanR.intervention.id==null}"
 					value="Référence de la DI " />
 				<pf:outputLabel rendered="#{beanR.intervention.id!=null}"
-					value="Astreinte :" />
-				<ui:param name="dquery"
-					value="select new javax.faces.model.SelectItem(a.id  ,a.ref|| ':' || a.sujet) from Astreinte a where INSTR(a.ressources,'${bean.utilisateur.email}' ) > 0 " />
-
+					value="Astreinte : *** #{beanR.idAstreinte}" />
+				<c:if test="#{mbean.areAnyGranted( 'ROLE_ADMIN') }">
+					<ui:param name="dquery"
+						value="select new javax.faces.model.SelectItem(a.id  ,a.ref|| ':' || a.sujet) from Astreinte a" />
+				</c:if>
+				<c:if
+					test="#{mbean.areAnyGranted( 'ROLE_CP') and mbean.areNotGranted('ROLE_ADMIN')}">
+					<ui:param name="dquery"
+						value="select new javax.faces.model.SelectItem(a.id  ,a.ref|| ':' || a.sujet) from Astreinte a where cp.id=${bean.utilisateur.id} " />
+				</c:if>
+				<c:if
+					test="#{mbean.areAnyGranted( 'ROLE_RES') and mbean.areNotGranted('ROLE_ADMIN,ROLE_CP')}">
+					<ui:param name="dquery"
+						value="select new javax.faces.model.SelectItem(a.id  ,a.ref|| ':' || a.sujet) from Astreinte a where INSTR(a.ressources,'${bean.utilisateur.email}' ) > 0 " />
+				</c:if>
 				<pf:selectOneMenu id="ref" rendered="#{beanR.intervention.id==null}"
-					disabled="" value="#{beanR.idAstreinte}"
-					requiredMessage="Séléctionnez une référence"
+					value="#{beanR.idAstreinte}"
 					style="width:230px; font-size:15px; height:25px; background-color:#FFFFFF; text-align:center;">
 					<f:selectItem itemLabel="Séléctionnez la ref" itemValue=""
 						noSelectionOption="true" />
 
 					<f:selectItems value="#{mbean[dquery]}" />
+					<pf:ajax update="users,detailsAstr" />
 
+					<!-- <f:ajax listener="#{beanR.listenerIntervention}"
+						render="contentdata,users" />
+					<f:ajax event="blur" render="refmsg" /> -->
 
-					<f:ajax listener="#{beanR.listenerIntervention}"
-						render="contentdata" />
-					<f:ajax event="blur" render="refmsg" />
 				</pf:selectOneMenu>
+				<pf:dataList id="detailsAstr" rendered="#{beanR.idAstreinte!=0}" style="border:0;"
+					var="astrex"
+					value="#{mbean['from Astreinte a where a.id = '.concat(beanR.idAstreinte)]}">
+					<pf:lightBox id="lighbox2">
+						<h:outputLink value="#">
+							<div align="center">
+
+
+								<pf:outputLabel value="Voir détail Astreinte" />
+
+							</div>
+						</h:outputLink>
+
+						<f:facet name="inline">
+							<pf:fieldset>
+								<pf:panelGrid rendered="#{astrex.id!=null}">
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Le type de la DI" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="typea" value="#{astrex.type}"
+												style="color:#000000; text-align:center;" />
+
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Le sujet de la DI" />
+
+										</pf:column>
+										<pf:column>
+											<h:outputText id="sujeta"
+												value="#{astrex.ref} : #{astrex.sujet}"
+												style="color:#000000;" />
+										</pf:column>
+
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Demandeur" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="demandeur" value="#{astrex.demandeur}"
+												style="color:#000000;" />
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Ressources" />
+										</pf:column>
+										<pf:column>
+											<ui:repeat
+												value="#{mbean.toStringArray(astrex.ressources,'~')}"
+												var="car">
+
+
+												<span> #{car}</span>
+												<br />
+
+											</ui:repeat>
+										</pf:column>
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Date de début" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="dtda" value="#{astrex.dateD}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="EEE dd/MM/yyyy HH:mm" />
+											</h:outputText>
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Date de fin" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="dtfa" value="#{astrex.dateF}"
+												style="color:#000000;">
+												<f:convertDateTime pattern="HH:mm" />
+											</h:outputText>
+										</pf:column>
+									</pf:row>
+									<pf:row>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="Etat" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="detat" value="#{astrex.etatAstreinte.keyp}"
+												style="color:#000000;" />
+
+										</pf:column>
+										<pf:column styleClass="ui-widget-header">
+											<h:outputLabel value="CP" />
+										</pf:column>
+										<pf:column>
+											<h:outputText id="cpid"
+												value="#{astrex.cp.nom}  #{astrex.cp.prenom }"
+												style="color:#000000;" />
+										</pf:column>
+									</pf:row>
+
+								</pf:panelGrid>
+							</pf:fieldset>
+						</f:facet>
+					</pf:lightBox>
+
+
+				</pf:dataList>
+				<h:panelGrid id="users" columns="2"
+					rendered="#{mbean.areAnyGranted( 'ROLE_CP')}">
+					<ui:param name="uquery"
+						value="select new javax.faces.model.SelectItem(u.id  ,u.email) from Astreinte a, Utilisateur u where not(REPLACE(a.ressources, u.email, '') = a.ressources) and a.id=${beanR.idAstreinte==null?0:beanR.idAstreinte} " />
+
+					<h:outputLabel value="Ressource" for="res" />
+
+					<pf:selectOneMenu id="res"
+						value="#{beanR.intervention.utilisateur.id}">
+						<f:selectItems value="#{mbean[uquery]}" />
+					</pf:selectOneMenu>
+				</h:panelGrid>
+
 				<pf:outputLabel rendered="#{beanR.intervention.id!=null}"
 					value="#{beanR.intervention.astreinte.ref}:#{beanR.intervention.astreinte.sujet}" />
-
-				<h:outputLabel value="Type de l'intervention" />
-				<pf:selectOneMenu id="type" required="true"
-					value="#{beanR.intervention.typeIntervention.id}"
-					style="width:230px; font-size:15px; height:25px; background-color:#FFFFFF; text-align:center;">
-					<f:selectItem itemLabel="Séléctionnez le type" itemValue=""
-						noSelectionOption="true" />
-
-					<f:selectItems
-						value="#{mbean['select new javax.faces.model.SelectItem(a.id ,a.keyp || \'-\' || a.stringValue || \' : \' || a.doubleValue) from TypeIntervention a']}" />
-					<f:ajax listener="#{beanR.listenerIntervention}"
-						render="contentdata" />
-				</pf:selectOneMenu>
-
+			</h:panelGrid>
+			<h:panelGrid columns="4" id="matchGrid2" cellpadding="5">
 				<h:outputLabel value="Date de début" />
 				<pf:calendar id="dated" size="30" required="true"
 					value="#{beanR.intervention.dateD}"
@@ -81,6 +198,19 @@
 					<pf:ajax event="dateSelect"
 						listener="#{beanR.listenerIntervention}" update="duration,charge" />
 				</pf:calendar>
+
+				<h:outputLabel value="Type de l'intervention" />
+				<pf:selectOneMenu id="type" required="true"
+					value="#{beanR.intervention.typeIntervention.id}"
+					style="width:230px; font-size:15px; height:25px; background-color:#FFFFFF; text-align:center;">
+					<f:selectItem itemLabel="Séléctionnez le type" itemValue=""
+						noSelectionOption="true" />
+
+					<f:selectItems
+						value="#{mbean['select new javax.faces.model.SelectItem(a.id ,a.keyp || \'-\' || a.stringValue || \' : \' || a.doubleValue) from TypeIntervention a']}" />
+					<f:ajax listener="#{beanR.listenerIntervention}"
+						render="contentdata" />
+				</pf:selectOneMenu>
 				<h:outputLabel value="Durée" />
 				<pf:outputLabel id="duration" value="#{beanR.intervention.duration}">
 

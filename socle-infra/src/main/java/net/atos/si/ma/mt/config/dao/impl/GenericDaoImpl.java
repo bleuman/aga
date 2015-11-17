@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,7 +39,7 @@ public class GenericDaoImpl<T, PK extends Serializable> implements
 	@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
 	private EntityManager entityManager;
 	private Class<T> persistentClass;
-	
+
 	/**
 	 * Constructor that takes in a class to see which type of entity to persist.
 	 * Use this constructor when subclassing or using dependency injection.
@@ -95,7 +96,7 @@ public class GenericDaoImpl<T, PK extends Serializable> implements
 	 * {@inheritDoc}
 	 */
 	public T load(PK id) {
-		log.trace("trying to load: "+persistentClass.getName()+", id:"+id);
+		log.trace("trying to load: " + persistentClass.getName() + ", id:" + id);
 		T entity = this.entityManager.find(this.persistentClass, id);
 
 		if (entity == null) {
@@ -121,7 +122,7 @@ public class GenericDaoImpl<T, PK extends Serializable> implements
 	 * {@inheritDoc}
 	 */
 	public T save(T object) {
-		log.trace("trying to save: "+object.toString());		
+		log.trace("trying to save: " + object.toString());
 		return this.entityManager.merge(object);
 	}
 
@@ -137,7 +138,8 @@ public class GenericDaoImpl<T, PK extends Serializable> implements
 	 * {@inheritDoc}
 	 */
 	public void remove(PK id) {
-		log.trace("trying to remove: "+persistentClass.getName()+", id:"+id);
+		log.trace("trying to remove: " + persistentClass.getName() + ", id:"
+				+ id);
 		this.entityManager.remove(this.load(id));
 	}
 
@@ -206,6 +208,17 @@ public class GenericDaoImpl<T, PK extends Serializable> implements
 	public Object sqlOneByQuery(String query) {
 		Query hquery = this.entityManager.createNativeQuery(query);
 		return hquery.getSingleResult();
+	}
+
+	@Override
+	public List<Object> executeNamedQuery(String query,
+			Map<String, Object> params) {
+		Query  nqQuery= this.entityManager.createNamedQuery(query);
+		
+		for (String key : params.keySet()) {
+			nqQuery.setParameter(key, params.get(key));
+		}
+		return nqQuery.getResultList();
 	}
 
 }

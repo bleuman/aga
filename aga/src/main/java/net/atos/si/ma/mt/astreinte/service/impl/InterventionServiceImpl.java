@@ -38,6 +38,8 @@ public class InterventionServiceImpl extends
 	@Qualifier("astreinteDAO")
 	private GenericDAO<Astreinte, Long> astreinteDAO;
 
+	
+
 	@Autowired
 	@Qualifier("jfDAO")
 	private GenericDAO<Jf, Date> jfDAO;

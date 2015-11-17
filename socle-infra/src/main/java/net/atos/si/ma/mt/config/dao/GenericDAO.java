@@ -80,4 +80,6 @@ public interface GenericDAO<T, PK extends Serializable> extends Serializable {
 	List<Object> sqlListByQuery(String query);
 
 	Object sqlOneByQuery(String query);
+	
+	List<Object> executeNamedQuery(String query, Map<String, Object> params);
 }

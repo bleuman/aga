@@ -1,6 +1,7 @@
 package net.atos.si.ma.mt.config.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,6 @@ public interface GenericService<T,PK> {
 	List<Object> sqlListByQuery(String query);
 
 	Object sqlOneByQuery(String query);
-	
+	List<Object> executeNamedQuery(String query, Map<String, Object> params);
 	
 }

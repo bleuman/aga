@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory name="aga">
+  <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+  <property name="hibernate.connection.password">agauser</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost/aga</property>
+  <property name="hibernate.connection.username">aga</property>
+  <property name="hibernate.default_schema">aga</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Astreinte"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Competence"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Entite"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Equipe"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.EtatAstreinte"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Intervention"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Jf"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Notification"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Utilisateur"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Role"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.Theme"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.TypeAstreinte"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.TypeIntervention"/>
+  <mapping class="net.atos.si.ma.mt.astreinte.model.STTIntervention"/>
+ </session-factory>
+</hibernate-configuration>
